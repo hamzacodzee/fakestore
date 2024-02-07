@@ -7,12 +7,14 @@ import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1); //pagination
   const [itemsPerPage] = useState(6); //pagination
   const [searching, setSearching] = useState(""); //search
+  const [load, setLoad] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +28,9 @@ const Home = () => {
           price: item.price,
         }));
         setData(formattedData);
+        setTimeout(() => {
+          setLoad(false);
+        }, 1000);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -69,68 +74,76 @@ const Home = () => {
   const rows = copyList.length > 0 ? copyList : data;
 
   return (
-    <div>
-      <h1>Home</h1>
-      <br />
-      {/* search */}
-      &nbsp; Search:&nbsp;
-      <input
-        type="search"
-        name="search"
-        id="search"
-        onInput={(e) => requestSearch(e.target.value)}
-      />
-      <button
-        onClick={() => {
-          localStorage.removeItem("LoginDetails");
-          navigate("/");
-        }}
-      >
-        Logout
-      </button>
-      <br />
-      <br />
-      {copyList.length === 0 && searching && <h1>No Similar Results Found</h1>}
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          {/* pagination */}
-          {rows?.slice(startIndex, endIndex).map((item, index) => (
-            <Grid xs={4} key={index}>
-              <Item>
-                <img
-                  src={item.image}
-                  alt={item.image}
-                  width="200px"
-                  height="200px"
-                />
-                <br />
-                <br />
-                <b>{item.title}</b>
+    <>
+      {load ? (
+        <Loader />
+      ) : (
+        <div>
+          <h1>Home</h1>
+          <br />
+          {/* search */}
+          &nbsp; Search:&nbsp;
+          <input
+            type="search"
+            name="search"
+            id="search"
+            onInput={(e) => requestSearch(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              localStorage.removeItem("LoginDetails");
+              navigate("/");
+            }}
+          >
+            Logout
+          </button>
+          <br />
+          <br />
+          {copyList.length === 0 && searching && (
+            <h1>No Similar Results Found</h1>
+          )}
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              {/* pagination */}
+              {rows?.slice(startIndex, endIndex).map((item, index) => (
+                <Grid xs={4} key={index}>
+                  <Item>
+                    <img
+                      src={item.image}
+                      alt={item.image}
+                      width="200px"
+                      height="200px"
+                    />
+                    <br />
+                    <br />
+                    <b>{item.title}</b>
 
-                <p>USD: {item.price}</p>
+                    <p>USD: {item.price}</p>
 
-                <Button
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                >
-                  Add Product
-                </Button>
-              </Item>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      fullWidth
+                      type="submit"
+                    >
+                      Add Product
+                    </Button>
+                  </Item>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Stack spacing={2}>
-        <Pagination
-          count={Math.ceil(rows.length / itemsPerPage)}
-          page={page}
-          onChange={handleChangePage}
-          color="primary"
-        />
-      </Stack>
-    </div>
+          </Box>
+          <Stack spacing={2}>
+            <Pagination
+              count={Math.ceil(rows.length / itemsPerPage)}
+              page={page}
+              onChange={handleChangePage}
+              color="primary"
+            />
+          </Stack>
+        </div>
+      )}
+    </>
   );
 };
 

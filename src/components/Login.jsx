@@ -52,7 +52,7 @@ const Login = () => {
           id="email"
           name="email"
           label="Email"
-          autoComplete="off"
+          autoComplete="on"
           value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
