@@ -9,7 +9,7 @@ const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
     .email("Enter a valid email")
-    .matches(/@[^.]*\./,"Enter a valid email")
+    .matches(/@[^.]*\./, "Enter a valid email")
     .required("Email is required"),
   password: yup
     .string("Enter your password")

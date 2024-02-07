@@ -49,7 +49,11 @@ const Home = () => {
   }));
 
   const handleChangePage = (event, newPage) => {
+    setLoad(true);
     setPage(newPage);
+    setTimeout(() => {
+      setLoad(false);
+    }, 1000);
   }; //pagination
 
   const startIndex = (page - 1) * itemsPerPage; //pagination
