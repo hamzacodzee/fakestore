@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@mui/material/Button";
@@ -9,6 +9,7 @@ const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
     .email("Enter a valid email")
+    .matches(/@[^.]*\./,"Enter a valid email")
     .required("Email is required"),
   password: yup
     .string("Enter your password")
@@ -19,9 +20,16 @@ const validationSchema = yup.object({
 const Login = () => {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    let login = localStorage.getItem("LoginDetails");
+    if (login) {
+      navigate("/home");
+    }
+  });
+
   const formik = useFormik({
     initialValues: {
-      email: "test@gmail.com",
+      email: "",
       password: "123456@",
     },
     validationSchema: validationSchema,

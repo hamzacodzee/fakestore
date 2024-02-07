@@ -6,13 +6,14 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1); //pagination
   const [itemsPerPage] = useState(6); //pagination
   const [searching, setSearching] = useState(""); //search
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -79,6 +80,14 @@ const Home = () => {
         id="search"
         onInput={(e) => requestSearch(e.target.value)}
       />
+      <button
+        onClick={() => {
+          localStorage.removeItem("LoginDetails");
+          navigate("/");
+        }}
+      >
+        Logout
+      </button>
       <br />
       <br />
       {copyList.length === 0 && searching && <h1>No Similar Results Found</h1>}
