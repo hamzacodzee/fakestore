@@ -11,7 +11,7 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1); //pagination
   const [itemsPerPage] = useState(6); //pagination
-  const [searching, setSearching] = useState("") //search
+  const [searching, setSearching] = useState(""); //search
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +53,7 @@ const Home = () => {
   const [copyList, setCopyList] = useState(data);
   const requestSearch = (searched) => {
     setSearching(searched);
+    setPage(1);
     setCopyList(
       data.filter((item) => {
         const values = Object.values(item).map((value) =>
@@ -71,7 +72,7 @@ const Home = () => {
       <h1>Home</h1>
       <br />
       {/* search */}
-      &nbsp; Search:
+      &nbsp; Search:&nbsp;
       <input
         type="search"
         name="search"
@@ -80,9 +81,7 @@ const Home = () => {
       />
       <br />
       <br />
-      {
-        copyList.length === 0 && searching && <h1>No Similar Results Found</h1>
-      }
+      {copyList.length === 0 && searching && <h1>No Similar Results Found</h1>}
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           {/* pagination */}
@@ -116,7 +115,7 @@ const Home = () => {
       </Box>
       <Stack spacing={2}>
         <Pagination
-          count={Math.ceil(data.length / itemsPerPage)}
+          count={Math.ceil(rows.length / itemsPerPage)}
           page={page}
           onChange={handleChangePage}
           color="primary"
