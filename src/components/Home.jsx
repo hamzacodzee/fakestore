@@ -8,9 +8,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState(6); 
+  const [data, setData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,10 +24,6 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -39,17 +33,14 @@ const Home = () => {
     color: theme.palette.text.secondary,
   }));
 
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
   return (
     <div>
       <h1>Home</h1>
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          {data.slice(startIndex, endIndex).map((item, index) => (
-            <Grid key={index} xs={4}>
+          {data?.map((item, index) => (
+            <Grid xs={4} key={index}>
               <Item>
                 <img
                   src={item.image}
@@ -60,8 +51,15 @@ const Home = () => {
                 <br />
                 <br />
                 <b>{item.title}</b>
+
                 <p>USD: {item.price}</p>
-                <Button color="primary" variant="contained" fullWidth type="submit">
+
+                <Button
+                  color="primary"
+                  variant="contained"
+                  fullWidth
+                  type="submit"
+                >
                   Add Product
                 </Button>
               </Item>
@@ -71,12 +69,7 @@ const Home = () => {
       </Box>
 
       <Stack spacing={2}>
-        <Pagination
-          count={Math.ceil(data.length / itemsPerPage)}
-          page={page}
-          onChange={handleChangePage}
-          color="primary"
-        />
+        <Pagination count={10} color="primary" />
       </Stack>
     </div>
   );
