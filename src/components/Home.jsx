@@ -8,14 +8,23 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 const Home = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1); //pagination
+  const [itemsPerPage] = useState(6); //pagination
+  const [searching, setSearching] = useState("") //search
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("https://fakestoreapi.com/products");
         const jsonData = await response.json();
-        setData(jsonData);
+        //search
+        const formattedData = jsonData.map((item) => ({
+          image: item.image,
+          title: item.title,
+          price: item.price,
+        }));
+        setData(formattedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -33,13 +42,51 @@ const Home = () => {
     color: theme.palette.text.secondary,
   }));
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  }; //pagination
+
+  const startIndex = (page - 1) * itemsPerPage; //pagination
+  const endIndex = startIndex + itemsPerPage; //pagination
+
+  //search
+  const [copyList, setCopyList] = useState(data);
+  const requestSearch = (searched) => {
+    setSearching(searched);
+    setCopyList(
+      data.filter((item) => {
+        const values = Object.values(item).map((value) =>
+          String(value).toLowerCase()
+        );
+        return values.some((value) => value.includes(searched.toLowerCase()));
+      })
+    );
+  };
+
+  //search
+  const rows = copyList.length > 0 ? copyList : data;
+
   return (
     <div>
       <h1>Home</h1>
-
+      <br />
+      {/* search */}
+      &nbsp; Search:
+      <input
+        type="search"
+        name="search"
+        id="search"
+        onInput={(e) => requestSearch(e.target.value)}
+      />
+      <br />
+      <br />
+      {
+        copyList.length === 0 && searching && <h1>No Similar Results Found</h1>
+      }
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          {data?.map((item, index) => (
+          {/* pagination */}
+          {rows?.slice(startIndex, endIndex).map((item, index) => (
             <Grid xs={4} key={index}>
               <Item>
                 <img
@@ -67,9 +114,13 @@ const Home = () => {
           ))}
         </Grid>
       </Box>
-
       <Stack spacing={2}>
-        <Pagination count={10} color="primary" />
+        <Pagination
+          count={Math.ceil(data.length / itemsPerPage)}
+          page={page}
+          onChange={handleChangePage}
+          color="primary"
+        />
       </Stack>
     </div>
   );
