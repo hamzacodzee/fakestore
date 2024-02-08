@@ -13,7 +13,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import {
-  setData,
   setPage,
   setLoad,
   setCategoryList,
@@ -21,6 +20,7 @@ import {
   setSearching,
   setCategory,
   setCopyList,
+  fetchData,
 } from "../store/slice/FakeStoreSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -40,27 +40,15 @@ const Home = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       setLoad(true);
       try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const jsonData = await response.json();
-        //search
-
-        const formattedData = jsonData.map(
-          ({ image, title, price, category }) => ({
-            image,
-            title,
-            price,
-            category,
-          })
-        );
-        dispatch(setData(formattedData));
+        dispatch(fetchData());
         setTimeout(() => {
           dispatch(setLoad(false));
         }, 1000);
 
-        const objarr = jsonData.map((item) => ({
+        const objarr = data.map((item) => ({
           cat: item.category,
         }));
 
@@ -73,8 +61,8 @@ const Home = () => {
       }
     };
 
-    fetchData();
-  }, [dispatch]);
+    getData();
+  }, [dispatch, data]);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

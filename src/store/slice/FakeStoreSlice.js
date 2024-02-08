@@ -1,4 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+
+export const fetchData = createAsyncThunk('fakeStore/fetchData', async () => {
+    try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        const jsonData = await response.json();
+        //search
+
+        const formattedData = jsonData.map(
+            ({ image, title, price, category }) => ({
+                image,
+                title,
+                price,
+                category,
+            })
+        );
+        return formattedData;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+})
 
 const initialState = {
     data: [],
@@ -53,6 +75,12 @@ export const fakeStoreSlice = createSlice({
             state.copyList = action.payload
         },
 
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchData.fulfilled, (state, action) => {
+                state.data = action.payload;
+            })
     },
 })
 
