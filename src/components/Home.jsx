@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
-// import Paper from "@mui/material/Paper";
-// import Grid from "@mui/material/Unstable_Grid2";
-// import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -68,15 +65,6 @@ const Home = () => {
 
     getData();
   }, [dispatch, data]);
-
-  // const Item = styled(Paper)(({ theme }) => ({
-  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  //   ...theme.typography.body2,
-  //   padding: theme.spacing(2),
-  //   margin: theme.spacing(4),
-  //   textAlign: "center",
-  //   color: theme.palette.text.secondary,
-  // }));
 
   const handleChangePage = (event, newPage) => {
     dispatch(setLoad(true));
@@ -166,7 +154,7 @@ const Home = () => {
                 autoWidth
                 label="category"
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="All">All</MenuItem>
                 {categoryList.map((item, index) => (
                   <MenuItem value={item} key={index}>
                     {item}
