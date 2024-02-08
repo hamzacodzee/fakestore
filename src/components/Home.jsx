@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -12,25 +12,36 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { setData } from "../store/slice/FakeStoreSlice";
+import {
+  setData,
+  setPage,
+  setLoad,
+  setCategoryList,
+  setCategoryData,
+  setSearching,
+  setCategory,
+  setCopyList,
+} from "../store/slice/FakeStoreSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.fakeStore);
-
-  const [categoryList, setCategoryList] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
-  const [page, setPage] = useState(1); //pagination
-  const [itemsPerPage] = useState(6); //pagination
-  const [searching, setSearching] = useState(""); //search
-  const [load, setLoad] = useState(true);
-  const [category, setCategory] = useState("");
-  const [copyList, setCopyList] = useState(data);
+  const {
+    data,
+    searching,
+    itemsPerPage,
+    page,
+    load,
+    categoryList,
+    categoryData,
+    category,
+    copyList,
+  } = useSelector((state) => state.fakeStore);
 
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
+      setLoad(true);
       try {
         const response = await fetch("https://fakestoreapi.com/products");
         const jsonData = await response.json();
@@ -46,7 +57,7 @@ const Home = () => {
         );
         dispatch(setData(formattedData));
         setTimeout(() => {
-          setLoad(false);
+          dispatch(setLoad(false));
         }, 1000);
 
         const objarr = jsonData.map((item) => ({
@@ -56,7 +67,7 @@ const Home = () => {
         const arr = objarr.map((item) => item.cat);
         const uniqueArray = Array.from(new Set(arr));
 
-        setCategoryList(uniqueArray);
+        dispatch(setCategoryList(uniqueArray));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -75,10 +86,10 @@ const Home = () => {
   }));
 
   const handleChangePage = (event, newPage) => {
-    setLoad(true);
-    setPage(newPage);
+    dispatch(setLoad(true));
+    dispatch(setPage(newPage));
     setTimeout(() => {
-      setLoad(false);
+      dispatch(setLoad(false));
     }, 1000);
   }; //pagination
 
@@ -88,8 +99,8 @@ const Home = () => {
   //search
 
   const requestSearch = (searched) => {
-    setSearching(searched);
-    setPage(1);
+    dispatch(setSearching(searched));
+    dispatch(setPage(1));
     const filterRows = (items) => {
       return items.filter((item) => {
         const values = Object.values(item).map((value) =>
@@ -98,23 +109,25 @@ const Home = () => {
         return values.some((value) => value.includes(searched.toLowerCase()));
       });
     };
-    setCopyList(category ? filterRows(categoryData) : filterRows(data));
+    dispatch(
+      setCopyList(category ? filterRows(categoryData) : filterRows(data))
+    );
   };
 
   const requestCategory = (cat) => {
-    setCategory(cat);
+    dispatch(setCategory(cat));
+    dispatch(setSearching(""));
   };
 
   useEffect(() => {
-    setPage(1);
-    const catdata = () =>
-      data.filter((item) => {
-        const rawdata = String(item.category);
-        return rawdata.includes(category);
-      });
-    setCopyList(catdata);
-    setCategoryData(catdata);
-  }, [category, data]);
+    dispatch(setPage(1));
+    const catdata = data.filter((item) => {
+      const rawdata = String(item.category);
+      return rawdata.includes(category);
+    });
+    dispatch(setCopyList(catdata));
+    dispatch(setCategoryData(catdata));
+  }, [category, data, dispatch]);
 
   //search
   const rows = copyList.length > 0 ? copyList : data;
@@ -133,6 +146,7 @@ const Home = () => {
             type="search"
             name="search"
             id="search"
+            value={searching}
             onInput={(e) => requestSearch(e.target.value)}
           />
           &nbsp; &nbsp;
