@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Unstable_Grid2";
-import { styled } from "@mui/material/styles";
+// import Paper from "@mui/material/Paper";
+// import Grid from "@mui/material/Unstable_Grid2";
+// import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -23,6 +23,11 @@ import {
   fetchData,
 } from "../store/slice/FakeStoreSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea, CardActions } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -64,14 +69,14 @@ const Home = () => {
     getData();
   }, [dispatch, data]);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    margin: theme.spacing(4),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(2),
+  //   margin: theme.spacing(4),
+  //   textAlign: "center",
+  //   color: theme.palette.text.secondary,
+  // }));
 
   const handleChangePage = (event, newPage) => {
     dispatch(setLoad(true));
@@ -173,38 +178,74 @@ const Home = () => {
           {copyList.length === 0 && searching && (
             <h1>No Similar Results Found</h1>
           )}
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
-              {/* pagination */}
-              {rows?.slice(startIndex, endIndex).map((item, index) => (
-                <Grid xs={4} key={index}>
-                  <Item>
-                    <img
-                      src={item.image}
-                      alt={item.image}
-                      width="200px"
-                      height="200px"
-                    />
-                    <br />
-                    <br />
-                    <b>{item.title}</b>
-
-                    <p>USD: {item.price}</p>
-
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      fullWidth
-                      type="submit"
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {rows?.slice(startIndex, endIndex).map((item, index) => (
+              <Card
+                sx={{ width: "400px", m: 1, p: 5, marginBottom: "30px" }}
+                key={index}
+              >
+                <CardActionArea sx={{ height: "590px" }}>
+                  <CardMedia
+                    component="img"
+                    image={item.image}
+                    alt={item.image}
+                    sx={{ height: "400px", objectFit: "contain" }}
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{ textAlign: "left", mt: 3 }}
                     >
-                      Add Product
-                    </Button>
-                  </Item>
-                </Grid>
-              ))}
-            </Grid>
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ textAlign: "left" }}
+                    >
+                      USD: {item.price}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                  >
+                    Share
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+            ;
           </Box>
-          <Stack spacing={2}>
+          <Stack
+            spacing={2}
+            sx={{
+              m: 4,
+              mb: 7,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Pagination
               count={Math.ceil(rows.length / itemsPerPage)}
               page={page}
