@@ -223,13 +223,8 @@ const Home = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Button
-                    size="small"
-                    color="primary"
-                    variant="contained"
-                    fullWidth
-                  >
-                    Share
+                  <Button color="primary" variant="contained" fullWidth>
+                    View
                   </Button>
                 </CardActions>
               </Card>
