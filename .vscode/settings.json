@@ -4,6 +4,7 @@
         "catdata",
         "Formik",
         "objarr",
-        "rawdata"
+        "rawdata",
+        "reduxjs"
     ]
 }

@@ -91,7 +91,11 @@ const Home = () => {
       });
     };
     dispatch(
-      setCopyList(category ? filterRows(categoryData) : filterRows(data))
+      setCopyList(
+        category && category !== "All"
+          ? filterRows(categoryData)
+          : filterRows(data)
+      )
     );
   };
 
@@ -172,6 +176,7 @@ const Home = () => {
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
+              flexGrow: 1,
             }}
           >
             {rows?.slice(startIndex, endIndex).map((item, index) => (
