@@ -123,7 +123,7 @@ const Home = () => {
         <Loader />
       ) : (
         <div>
-          <h1>Home</h1>
+          <br />
           <br />
           {/* search */}
           &nbsp; Search:&nbsp;
