@@ -55,10 +55,18 @@ const Signup = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-      const updatedUsers = [...existingUsers, values];
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      navigate("/");
+      const userDetail = localStorage.getItem("users");
+      const allUsers = JSON.parse(userDetail) || [];
+      const user = allUsers.find((user) => user?.email === values["email"]);
+
+      if (user) {
+        alert("User Already Existed");
+      } else {
+        const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+        const updatedUsers = [...existingUsers, values];
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        navigate("/");
+      }
     },
   });
   return (

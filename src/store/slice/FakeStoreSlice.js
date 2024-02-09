@@ -15,6 +15,8 @@ export const fetchData = createAsyncThunk('fakeStore/fetchData', async () => {
                 category,
             })
         );
+
+
         return formattedData;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -38,11 +40,6 @@ export const fakeStoreSlice = createSlice({
     name: 'fakeStore',
     initialState,
     reducers: {
-
-        setData: (state, action) => {
-            state.data = action.payload
-        },
-
         setItemsPerPage: (state, action) => {
             state.itemsPerPage = action.payload
         },
@@ -85,6 +82,6 @@ export const fakeStoreSlice = createSlice({
 })
 
 
-export const { setData, setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
+export const { setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
 
 export default fakeStoreSlice.reducer

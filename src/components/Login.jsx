@@ -50,7 +50,8 @@ const Login = () => {
   });
 
   return (
-    <div style={{ margin: "35%", marginTop: "15%", marginBottom:"0%" }}>
+    <div style={{ margin: "35%", marginTop: "15%", marginBottom: "0%" }}>
+      <h2>Login</h2>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth

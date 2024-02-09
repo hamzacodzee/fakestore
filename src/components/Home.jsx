@@ -49,22 +49,13 @@ const Home = () => {
         setTimeout(() => {
           dispatch(setLoad(false));
         }, 1000);
-
-        const objarr = data?.map((item) => ({
-          cat: item?.category,
-        }));
-
-        const arr = objarr?.map((item) => item.cat);
-        const uniqueArray = Array.from(new Set(arr));
-
-        dispatch(setCategoryList(uniqueArray));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     getData();
-  }, [dispatch, data]);
+  }, [dispatch]);
 
   const handleChangePage = (event, newPage) => {
     dispatch(setLoad(true));
@@ -87,9 +78,7 @@ const Home = () => {
         const values = Object?.values(item)?.map((value) =>
           String(value)?.toLowerCase()
         );
-        return values?.some((value) =>
-          value?.includes(searched?.toLowerCase())
-        );
+        return values?.some((value) => value?.includes(searched.toLowerCase()));
       });
     };
     dispatch(
@@ -114,6 +103,15 @@ const Home = () => {
     });
     dispatch(setCopyList(catdata));
     dispatch(setCategoryData(catdata));
+    console.log(data);
+    const objarr = data?.map((item) => ({
+      cat: item?.category,
+    }));
+
+    const arr = objarr?.map((item) => item.cat);
+    const uniqueArray = Array.from(new Set(arr));
+
+    dispatch(setCategoryList(uniqueArray));
   }, [category, data, dispatch]);
 
   //search
