@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Country, State, City } from "country-state-city";
 
 const validationSchema = yup.object({
   email: yup
@@ -56,9 +57,9 @@ const Signup = () => {
       address: "123abcxyz",
       password: "123",
       cPassword: "123",
-      city: "surat",
-      state: "Gujarat",
-      country: "India",
+      city: "",
+      state: "",
+      country: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -76,10 +77,13 @@ const Signup = () => {
       }
     },
   });
+  const { touched, errors, handleBlur, handleSubmit, handleChange, values } =
+    formik;
+
   return (
     <div style={{ margin: "10%", marginTop: "0%" }}>
       <h2>Registration</h2>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
           id="fName"
@@ -87,11 +91,11 @@ const Signup = () => {
           label="First Name"
           type="text"
           autoComplete="on"
-          value={formik.values.fName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.fName && Boolean(formik.errors?.fName)}
-          helperText={formik.touched?.fName && formik.errors?.fName}
+          value={values.fName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.fName && Boolean(errors?.fName)}
+          helperText={touched?.fName && errors?.fName}
         />
         <br />
         <br />
@@ -102,11 +106,11 @@ const Signup = () => {
           label="Last Name"
           type="text"
           autoComplete="on"
-          value={formik.values.lName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.lName && Boolean(formik.errors?.lName)}
-          helperText={formik.touched?.lName && formik.errors?.lName}
+          value={values.lName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.lName && Boolean(errors?.lName)}
+          helperText={touched?.lName && errors?.lName}
         />
         <br />
         <br />
@@ -117,11 +121,11 @@ const Signup = () => {
           label="Email"
           type="email"
           autoComplete="on"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.email && Boolean(formik.errors?.email)}
-          helperText={formik.touched?.email && formik.errors?.email}
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.email && Boolean(errors?.email)}
+          helperText={touched?.email && errors?.email}
         />
         <br />
         <br />
@@ -132,29 +136,37 @@ const Signup = () => {
           label="Address"
           type="text"
           autoComplete="on"
-          value={formik.values.address}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.address && Boolean(formik.errors?.address)}
-          helperText={formik.touched?.address && formik.errors?.address}
+          value={values.address}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.address && Boolean(errors?.address)}
+          helperText={touched?.address && errors?.address}
           multiline
           maxRows={4}
         />
         <br />
         <br />
-        <TextField
-          fullWidth
-          id="city"
-          name="city"
-          label="City"
-          type="text"
-          autoComplete="on"
-          value={formik.values.city}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.city && Boolean(formik.errors?.city)}
-          helperText={formik.touched?.city && formik.errors?.city}
-        />
+        <FormControl required fullWidth sx={{ textAlign: "left" }}>
+          <InputLabel id="demo-simple-select-label">Country</InputLabel>
+          <Select
+            autoComplete="on"
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Country"
+            value={values.country}
+            onChange={handleChange}
+            error={touched?.country && Boolean(errors?.country)}
+            helpertext={touched?.country && errors?.country}
+            name="country"
+          >
+            {Country?.getAllCountries()?.map(({ name, isoCode }) => (
+              <MenuItem value={isoCode} key={isoCode}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <br />
         <br />
 
@@ -164,23 +176,20 @@ const Signup = () => {
             autoComplete="on"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={formik.values.state}
-            onChange={formik.handleChange}
-            error={formik.touched?.state && Boolean(formik.errors?.state)}
-            helpertext={formik.touched?.state && formik.errors?.state}
+            value={values.state}
+            onChange={handleChange}
+            error={touched?.state && Boolean(errors?.state)}
+            helpertext={touched?.state && errors?.state}
             name="state"
             label="State"
           >
-            <MenuItem value={"Gujarat"}>Gujarat</MenuItem>
-            <MenuItem value={"Rajasthan"}>Rajasthan</MenuItem>
-            <MenuItem value={"Punjab"}>Punjab</MenuItem>
-            <MenuItem value={"Maharashtra"}>Maharashtra</MenuItem>
-            <MenuItem value={"Goa"}>Goa</MenuItem>
-            <MenuItem value={"Kerela"}>Kerela</MenuItem>
-            <MenuItem value={"Telangana"}>Telangana</MenuItem>
-            <MenuItem value={"Uttarakhand"}>Uttarakhand</MenuItem>
-            <MenuItem value={"Assam"}>Assam</MenuItem>
-            <MenuItem value={"Karnataka"}>Karnataka</MenuItem>
+            {State.getStatesOfCountry(values.country)?.map(
+              ({ name, isoCode }) => (
+                <MenuItem value={isoCode} key={isoCode}>
+                  {name}
+                </MenuItem>
+              )
+            )}
           </Select>
         </FormControl>
 
@@ -188,25 +197,30 @@ const Signup = () => {
         <br />
 
         <FormControl required fullWidth sx={{ textAlign: "left" }}>
-          <InputLabel id="demo-simple-select-label">Country</InputLabel>
+          <InputLabel id="demo-simple-select-label">City</InputLabel>
           <Select
             autoComplete="on"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Country"
-            value={formik.values.country}
-            onChange={formik.handleChange}
-            error={formik.touched?.country && Boolean(formik.errors?.country)}
-            helpertext={formik.touched?.country && formik.errors?.country}
-            name="country"
+            value={values.city}
+            onChange={handleChange}
+            error={touched?.city && Boolean(errors?.city)}
+            helpertext={touched?.city && errors?.city}
+            name="city"
+            label="city"
           >
-            <MenuItem value={"India"}>India</MenuItem>
-            <MenuItem value={"Out of India"}>Out of India</MenuItem>
+            {City.getCitiesOfState(values.country, values.state)?.map(
+              ({ name }, index) => (
+                <MenuItem value={name} key={index}>
+                  {name}
+                </MenuItem>
+              )
+            )}
           </Select>
         </FormControl>
+        <br />
+        <br />
 
-        <br />
-        <br />
         <TextField
           fullWidth
           id="password"
@@ -214,11 +228,11 @@ const Signup = () => {
           label="Password"
           type="password"
           autoComplete="on"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.password && Boolean(formik.errors?.password)}
-          helperText={formik.touched?.password && formik.errors?.password}
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.password && Boolean(errors?.password)}
+          helperText={touched?.password && errors?.password}
         />
         <br />
         <br />
@@ -230,11 +244,11 @@ const Signup = () => {
           label="Confirm Password"
           type="password"
           autoComplete="on"
-          value={formik.values.cPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.cPassword && Boolean(formik.errors?.cPassword)}
-          helperText={formik.touched?.cPassword && formik.errors?.cPassword}
+          value={values.cPassword}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.cPassword && Boolean(errors?.cPassword)}
+          helperText={touched?.cPassword && errors?.cPassword}
         />
         <br />
         <br />

@@ -49,21 +49,24 @@ const Login = () => {
     },
   });
 
+  const { touched, errors, handleBlur, handleSubmit, handleChange, values } =
+    formik;
+
   return (
-    <div style={{ margin: "35%", marginTop: "15%", marginBottom: "0%" }}>
+    <div style={{ margin: "35%", marginTop: "10%", marginBottom: "0%" }}>
       <h2>Login</h2>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
           id="email"
           name="email"
           label="Email"
           autoComplete="on"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.email && Boolean(formik.errors?.email)}
-          helperText={formik.touched?.email && formik.errors?.email}
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.email && Boolean(errors?.email)}
+          helperText={touched?.email && errors?.email}
         />
         <br />
         <br />
@@ -73,11 +76,11 @@ const Login = () => {
           name="password"
           label="Password"
           type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched?.password && Boolean(formik.errors?.password)}
-          helperText={formik.touched?.password && formik.errors?.password}
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched?.password && Boolean(errors?.password)}
+          helperText={touched?.password && errors?.password}
         />
         <br />
         <br />
