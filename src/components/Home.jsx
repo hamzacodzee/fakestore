@@ -50,11 +50,11 @@ const Home = () => {
           dispatch(setLoad(false));
         }, 1000);
 
-        const objarr = data.map((item) => ({
-          cat: item.category,
+        const objarr = data?.map((item) => ({
+          cat: item?.category,
         }));
 
-        const arr = objarr.map((item) => item.cat);
+        const arr = objarr?.map((item) => item.cat);
         const uniqueArray = Array.from(new Set(arr));
 
         dispatch(setCategoryList(uniqueArray));
@@ -83,11 +83,13 @@ const Home = () => {
     dispatch(setSearching(searched));
     dispatch(setPage(1));
     const filterRows = (items) => {
-      return items.filter((item) => {
-        const values = Object.values(item).map((value) =>
-          String(value).toLowerCase()
+      return items?.filter((item) => {
+        const values = Object?.values(item)?.map((value) =>
+          String(value)?.toLowerCase()
         );
-        return values.some((value) => value.includes(searched.toLowerCase()));
+        return values?.some((value) =>
+          value?.includes(searched?.toLowerCase())
+        );
       });
     };
     dispatch(
@@ -106,9 +108,9 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(setPage(1));
-    const catdata = data.filter((item) => {
-      const rawdata = String(item.category);
-      return rawdata.includes(category);
+    const catdata = data?.filter((item) => {
+      const rawdata = String(item?.category);
+      return rawdata?.includes(category);
     });
     dispatch(setCopyList(catdata));
     dispatch(setCategoryData(catdata));
@@ -167,7 +169,7 @@ const Home = () => {
               </Select>
             </FormControl>
           </div>
-          {copyList.length === 0 && searching && (
+          {copyList?.length === 0 && searching && (
             <h1>No Similar Results Found</h1>
           )}
           <Box
@@ -187,8 +189,8 @@ const Home = () => {
                 <CardActionArea sx={{ height: "590px" }}>
                   <CardMedia
                     component="img"
-                    image={item.image}
-                    alt={item.image}
+                    image={item?.image}
+                    alt={item?.image}
                     sx={{ height: "400px", objectFit: "contain" }}
                   />
                   <CardContent>
@@ -198,14 +200,14 @@ const Home = () => {
                       component="div"
                       sx={{ textAlign: "left", mt: 3 }}
                     >
-                      {item.title}
+                      {item?.title}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="text.secondary"
                       sx={{ textAlign: "left" }}
                     >
-                      USD: {item.price}
+                      USD: {item?.price}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -235,7 +237,7 @@ const Home = () => {
             }}
           >
             <Pagination
-              count={Math.ceil(rows.length / itemsPerPage)}
+              count={Math?.ceil(rows?.length / itemsPerPage)}
               page={page}
               onChange={handleChangePage}
               color="primary"
