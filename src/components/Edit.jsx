@@ -82,6 +82,9 @@ const Edit = () => {
       const oldUser = JSON.parse(oldUserString);
       const oldEmail = oldUser.email;
       const user = allUsers.findIndex((user) => user?.email === oldEmail);
+      const oldData = allUsers.find((user) => user?.email === oldEmail);
+      console.log(oldData);
+
       const {
         fName,
         lName,
@@ -105,7 +108,19 @@ const Edit = () => {
         state,
         country,
       };
-
+      const newData = {
+        fName,
+        lName,
+        email,
+        address,
+        password,
+        cPassword,
+        city,
+        state,
+        country,
+      };
+      console.log(newData);
+      console.log(oldData == newData);
       localStorage.setItem("users", JSON.stringify(allUsers));
       localStorage.setItem("LoginDetails", JSON.stringify(allUsers[user]));
 
