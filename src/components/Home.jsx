@@ -103,14 +103,13 @@ const Home = () => {
     });
     dispatch(setCopyList(catdata));
     dispatch(setCategoryData(catdata));
-    console.log(data);
+
     const objarr = data?.map((item) => ({
       cat: item?.category,
     }));
 
     const arr = objarr?.map((item) => item.cat);
     const uniqueArray = Array.from(new Set(arr));
-
     dispatch(setCategoryList(uniqueArray));
   }, [category, data, dispatch]);
 

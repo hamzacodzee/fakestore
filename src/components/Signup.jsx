@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@mui/material/Button";
@@ -40,6 +40,13 @@ const validationSchema = yup.object({
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let login = localStorage.getItem("LoginDetails");
+    if (login) {
+      navigate("/home");
+    }
+  });
 
   const formik = useFormik({
     initialValues: {
