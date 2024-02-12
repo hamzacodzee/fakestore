@@ -123,21 +123,29 @@ const Home = () => {
         <div>
           <br />
           <br />
-          {/* search */}
-          &nbsp; Search:&nbsp;
-          <input
-            type="search"
-            name="search"
-            id="search"
-            value={searching}
-            onInput={(e) => requestSearch(e.target.value)}
-          />
-          &nbsp; &nbsp;
-          <br />
-          <br />
-          <div>
-            <FormControl sx={{ m: 1, minWidth: 130 }}>
-              <InputLabel id="demo-simple-select-autowidth-label">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* search */}
+            &nbsp; Search:&nbsp;
+            <input
+              type="search"
+              name="search"
+              id="search"
+              value={searching}
+              onInput={(e) => requestSearch(e.target.value)}
+              style={{ fontSize: "1rem" }}
+            />
+            &nbsp; &nbsp;
+            <FormControl sx={{ minWidth: 130 }}>
+              <InputLabel
+                id="demo-simple-select-autowidth-label"
+                sx={{ fontSize: "0.6rem", fontWeight: "1000" }}
+              >
                 Category
               </InputLabel>
               <Select
@@ -147,6 +155,12 @@ const Home = () => {
                 onChange={(e) => requestCategory(e.target.value)}
                 autoWidth
                 label="category"
+                sx={{
+                  height: 28,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
                 <MenuItem value="All">All</MenuItem>
                 {categoryList.map((item, index) => (
