@@ -88,9 +88,7 @@ const AgeCalculator = () => {
             : {})}
         />
       </div>
-
       <br />
-
       <h3>
         Age: {age?.years} Years, {age?.months} Months, {age?.days} Days
       </h3>
