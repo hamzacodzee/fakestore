@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useNavigate } from "react-router-dom";
+
 import Loader from "./Loader";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,7 +40,6 @@ const Home = () => {
     copyList,
   } = useSelector((state) => state.fakeStore);
 
-  const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
       setLoad(true);
@@ -134,14 +133,6 @@ const Home = () => {
             onInput={(e) => requestSearch(e.target.value)}
           />
           &nbsp; &nbsp;
-          <button
-            onClick={() => {
-              localStorage.removeItem("LoginDetails");
-              navigate("/");
-            }}
-          >
-            Logout
-          </button>
           <br />
           <br />
           <div>

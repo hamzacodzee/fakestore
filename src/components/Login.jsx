@@ -4,6 +4,7 @@ import * as yup from "yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   email: yup
@@ -45,7 +46,7 @@ const Login = () => {
       if (user) {
         localStorage.setItem("LoginDetails", JSON.stringify(user, null, 2));
         navigate("/home");
-      } else alert("Invalid Credentials");
+      } else toast.error("Invalid Credentials");
     },
   });
 

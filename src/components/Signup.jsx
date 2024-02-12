@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Country, State, City } from "country-state-city";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   email: yup
@@ -68,7 +69,7 @@ const Signup = () => {
       const user = allUsers.find((user) => user?.email === values["email"]);
 
       if (user) {
-        alert("User Already Existed");
+        toast.error("User Already Existed");
       } else {
         const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
         const updatedUsers = [...existingUsers, values];

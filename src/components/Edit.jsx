@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Country, State, City } from "country-state-city";
 import { useNavigate } from "react-router-dom";
+import _ from "lodash";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   email: yup
@@ -83,7 +85,6 @@ const Edit = () => {
       const oldEmail = oldUser.email;
       const user = allUsers.findIndex((user) => user?.email === oldEmail);
       const oldData = allUsers.find((user) => user?.email === oldEmail);
-      console.log(oldData);
 
       const {
         fName,
@@ -119,12 +120,14 @@ const Edit = () => {
         state,
         country,
       };
-      console.log(newData);
-      console.log(oldData == newData);
-      localStorage.setItem("users", JSON.stringify(allUsers));
-      localStorage.setItem("LoginDetails", JSON.stringify(allUsers[user]));
 
-      alert("Updated");
+      if (_.isEqual(oldData, newData)) {
+        toast.error("Do Some Changes");
+      } else {
+        localStorage.setItem("users", JSON.stringify(allUsers));
+        localStorage.setItem("LoginDetails", JSON.stringify(allUsers[user]));
+        toast.success("Updated Successfully");
+      }
     },
   });
   const { touched, errors, handleBlur, handleSubmit, handleChange, values } =

@@ -6,6 +6,8 @@ import Protected from './components/Protected';
 import Signup from './components/Signup';
 import MyAppBar from './components/MyAppBar';
 import Edit from './components/Edit';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -23,7 +25,7 @@ function App() {
 
 
       </Routes>
-
+      <ToastContainer autoClose={3000} position="top-center" theme="colored" />
     </div>
   );
 }
