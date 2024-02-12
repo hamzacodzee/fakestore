@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Country, State, City } from "country-state-city";
 import { toast } from "react-toastify";
@@ -258,6 +258,8 @@ const Signup = () => {
           Submit
         </Button>
       </form>
+      <p>Have an Account? <Link style={{color:"blue"}} to="/">Login</Link></p>
+
     </div>
   );
 };

@@ -8,6 +8,7 @@ import MyAppBar from './components/MyAppBar';
 import Edit from './components/Edit';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
+import DatePicker from './components/DatePicker';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Protected Component={Home} />} />
         <Route path="/edit" element={<Protected Component={Edit} />} />
+        <Route path="/age" element={<DatePicker />} />
 
 
       </Routes>

@@ -135,7 +135,7 @@ const Edit = () => {
 
   return (
     <div style={{ margin: "10%", marginTop: "0%" }}>
-      <h2>Edit</h2>
+      <h2>Profile</h2>
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
