@@ -18,6 +18,8 @@ import {
   setCategory,
   setCopyList,
   fetchData,
+  setFilterID,
+  setFilterTitle,
 } from "../store/slice/FakeStoreSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
@@ -40,6 +42,8 @@ const Home = () => {
     categoryData,
     category,
     copyList,
+    filterID,
+    filterTitle,
   } = useSelector((state) => state.fakeStore);
 
   useEffect(() => {
@@ -114,6 +118,26 @@ const Home = () => {
     dispatch(setCategoryList(uniqueArray));
   }, [category, data, dispatch]);
 
+  const requestFilterID = (value) => {
+    dispatch(setFilterID(value));
+
+    const filteredData = data?.filter((item) => {
+      const rawdata = String(item?.id);
+      return rawdata?.includes(value);
+    });
+    console.log(filteredData);
+    dispatch(setCopyList(filteredData));
+  };
+
+  const requestFilterTitle = (value) => {
+    dispatch(setFilterTitle(value));
+
+    console.log(value);
+    const filteredData = data.map((item) => item.id).includes(value);
+    console.log(filteredData);
+    dispatch(setCopyList(filteredData));
+  };
+
   //search
   const rows = copyList.length > 0 ? copyList : data;
 
@@ -173,6 +197,46 @@ const Home = () => {
               </Select>
             </FormControl>
           </div>
+          <div
+            style={{
+              marginTop: "2rem",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ margin: "1rem" }}>
+              <label style={{ margin: "0.5rem" }}>ID:</label>
+              <input
+                type="search"
+                name="idval"
+                id="idval"
+                value={filterID}
+                onInput={(e) => requestFilterID(e.target.value)}
+                style={{ fontSize: "1rem" }}
+              />
+            </div>
+          </div>
+
+          <div
+            style={{
+              marginTop: "2rem",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ margin: "1rem" }}>
+              <label style={{ margin: "0.5rem" }}>Title:</label>
+              <input
+                type="search"
+                name="titleval"
+                id="titleval"
+                value={filterTitle}
+                onInput={(e) => requestFilterTitle(e.target.value)}
+                style={{ fontSize: "1rem" }}
+              />
+            </div>
+          </div>
+
           {copyList?.length === 0 && searching && (
             <h1>No Similar Results Found</h1>
           )}
@@ -222,7 +286,14 @@ const Home = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Button color="primary" variant="contained" onClick={()=>{navigate(`/viewproduct/${item?.id}`)}} fullWidth>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                      navigate(`/viewproduct/${item?.id}`);
+                    }}
+                    fullWidth
+                  >
                     View
                   </Button>
                 </CardActions>

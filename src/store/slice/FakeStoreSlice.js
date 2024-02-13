@@ -34,7 +34,9 @@ const initialState = {
     categoryData: [],
     searching: "",
     category: "",
-    copyList: []
+    copyList: [],
+    filterID: "",
+    filterTitle: "",
 }
 
 export const fakeStoreSlice = createSlice({
@@ -73,6 +75,18 @@ export const fakeStoreSlice = createSlice({
             state.copyList = action.payload
         },
 
+        setFilterID: (state, action) => {
+            state.filterID = action.payload
+        },
+
+        setFilterTitle: (state, action) => {
+            state.filterTitle = action.payload
+        },
+
+
+
+
+
     },
     extraReducers: (builder) => {
         builder
@@ -83,6 +97,6 @@ export const fakeStoreSlice = createSlice({
 })
 
 
-export const { setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
+export const { setFilterID, setFilterTitle, setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
 
 export default fakeStoreSlice.reducer
