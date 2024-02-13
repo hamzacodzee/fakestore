@@ -125,9 +125,9 @@ const Home = () => {
       return rawdata?.includes(filterValue?.toLowerCase() || "");
     });
   };
-  const requestFilter = ({ id, title, price }) => {
-    dispatch(setFilter({ id, title, price }));
-    console.log(id, title, price);
+  const requestFilter = ({ id, title, price, pricemin, pricemax }) => {
+    dispatch(setFilter({ id, title, price, pricemin, pricemax }));
+    console.log(id, title, price, pricemin, pricemax);
 
     let filteredData = data;
 
@@ -143,13 +143,36 @@ const Home = () => {
       filteredData = filterData(filteredData, "price", price);
     }
 
+    if (pricemin) {
+      filteredData = filterData(filteredData, "price", pricemin);
+    }
+
+    if (pricemax) {
+      const priceFunc = () => {
+        return filteredData?.filter((item) => {
+          const itemPrice = parseFloat(item?.["price"]);
+          const maxPrice = parseFloat(pricemax);
+          const minPrice = parseFloat(pricemin);
+          console.log("itemPrice:", itemPrice);
+          console.log("maxPrice:", maxPrice);
+          console.log("minPrice:", minPrice);
+          console.log(
+            "Comparison result:",
+            itemPrice < maxPrice && itemPrice > minPrice
+          );
+          return itemPrice < maxPrice && itemPrice > minPrice;
+        });
+      };
+
+      filteredData = priceFunc();
+    }
     console.log(filteredData);
     dispatch(setCopyList(filteredData));
   };
 
   //search
   const rows = copyList.length > 0 ? copyList : data;
-  const searchIn = ["id", "title", "price"];
+  const searchIn = ["id", "title", "price", "pricemin", "pricemax"];
 
   return (
     <>
