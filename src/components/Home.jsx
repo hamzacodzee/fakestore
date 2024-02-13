@@ -118,30 +118,33 @@ const Home = () => {
     dispatch(setCategoryList(uniqueArray));
   }, [category, data, dispatch]);
 
+  const filterData = (data, property, filterValue) => {
+    return data?.filter((item) => {
+      const rawdata = String(item?.[property]).toLowerCase();
+      dispatch(setFiltering(property ? property : ""));
+      return rawdata?.includes(filterValue?.toLowerCase() || "");
+    });
+  };
   const requestFilter = ({ id, title, price }) => {
     dispatch(setFilter({ id, title, price }));
     console.log(id, title, price);
 
-    const idfilter = data?.filter((item) => {
-      const rawdata = String(item?.id)?.toLowerCase();
-      dispatch(setFiltering(id ? id : ""));
-      return rawdata?.includes(id?.toLowerCase() || "");
-    });
+    let filteredData = data;
 
-    const titlefilter = idfilter?.filter((item) => {
-      const rawdata = String(item?.title)?.toLowerCase();
-      dispatch(setFiltering(title ? title : ""));
-      return rawdata?.includes(title?.toLowerCase() || "");
-    });
+    if (id) {
+      filteredData = filterData(filteredData, "id", id);
+    }
 
-    const pricefilter = titlefilter?.filter((item) => {
-      const rawdata = String(item?.price);
-      dispatch(setFiltering(price ? price : ""));
-      return rawdata?.includes(price || "");
-    });
+    if (title) {
+      filteredData = filterData(filteredData, "title", title);
+    }
 
-    console.log(pricefilter);
-    dispatch(setCopyList(pricefilter));
+    if (price) {
+      filteredData = filterData(filteredData, "price", price);
+    }
+
+    console.log(filteredData);
+    dispatch(setCopyList(filteredData));
   };
 
   //search
@@ -212,8 +215,6 @@ const Home = () => {
               justifyContent: "center",
             }}
           >
-            {/*  */}
-
             {searchIn.map((feild) => (
               <div style={{ margin: "1rem" }} key={feild}>
                 <label style={{ margin: "0.5rem" }} htmlFor={feild + "val"}>
@@ -231,8 +232,6 @@ const Home = () => {
                 />
               </div>
             ))}
-
-            {/* hii */}
           </div>
 
           {copyList?.length === 0 && searching && (
