@@ -25,9 +25,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     data,
     searching,
@@ -220,7 +222,7 @@ const Home = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Button color="primary" variant="contained" fullWidth>
+                  <Button color="primary" variant="contained" onClick={()=>{navigate(`/viewproduct/${item?.id}`)}} fullWidth>
                     View
                   </Button>
                 </CardActions>

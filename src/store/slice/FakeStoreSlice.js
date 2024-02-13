@@ -8,7 +8,8 @@ export const fetchData = createAsyncThunk('fakeStore/fetchData', async () => {
         //search
 
         const formattedData = jsonData.map(
-            ({ image, title, price, category }) => ({
+            ({ id, image, title, price, category }) => ({
+                id,
                 image,
                 title,
                 price,
