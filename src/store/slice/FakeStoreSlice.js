@@ -37,6 +37,8 @@ const initialState = {
     copyList: [],
     filterID: "",
     filterTitle: "",
+    filtering: "",
+    filter: []
 }
 
 export const fakeStoreSlice = createSlice({
@@ -75,14 +77,13 @@ export const fakeStoreSlice = createSlice({
             state.copyList = action.payload
         },
 
-        setFilterID: (state, action) => {
-            state.filterID = action.payload
+        setFiltering: (state, action) => {
+            state.filtering = action.payload
         },
 
-        setFilterTitle: (state, action) => {
-            state.filterTitle = action.payload
+        setFilter: (state, action) => {
+            state.filter = action.payload
         },
-
 
 
 
@@ -97,6 +98,6 @@ export const fakeStoreSlice = createSlice({
 })
 
 
-export const { setFilterID, setFilterTitle, setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
+export const { setFilter, setFiltering, setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
 
 export default fakeStoreSlice.reducer

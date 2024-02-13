@@ -18,8 +18,8 @@ import {
   setCategory,
   setCopyList,
   fetchData,
-  setFilterID,
-  setFilterTitle,
+  setFiltering,
+  setFilter,
 } from "../store/slice/FakeStoreSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
@@ -42,8 +42,8 @@ const Home = () => {
     categoryData,
     category,
     copyList,
-    filterID,
-    filterTitle,
+    filtering,
+    filter,
   } = useSelector((state) => state.fakeStore);
 
   useEffect(() => {
@@ -118,24 +118,30 @@ const Home = () => {
     dispatch(setCategoryList(uniqueArray));
   }, [category, data, dispatch]);
 
-  const requestFilterID = (value) => {
-    dispatch(setFilterID(value));
+  const requestFilter = ({ id, title, price }) => {
+    dispatch(setFilter({ id, title, price }));
+    console.log(id, title, price);
 
-    const filteredData = data?.filter((item) => {
-      const rawdata = String(item?.id);
-      return rawdata?.includes(value);
+    const idfilter = data?.filter((item) => {
+      const rawdata = String(item?.id)?.toLowerCase();
+      dispatch(setFiltering(id ? id : ""));
+      return rawdata?.includes(id?.toLowerCase() || "");
     });
-    console.log(filteredData);
-    dispatch(setCopyList(filteredData));
-  };
 
-  const requestFilterTitle = (value) => {
-    dispatch(setFilterTitle(value));
+    const titlefilter = idfilter?.filter((item) => {
+      const rawdata = String(item?.title)?.toLowerCase();
+      dispatch(setFiltering(title ? title : ""));
+      return rawdata?.includes(title?.toLowerCase() || "");
+    });
 
-    console.log(value);
-    const filteredData = data.map((item) => item.id).includes(value);
-    console.log(filteredData);
-    dispatch(setCopyList(filteredData));
+    const pricefilter = titlefilter?.filter((item) => {
+      const rawdata = String(item?.price);
+      dispatch(setFiltering(price ? price : ""));
+      return rawdata?.includes(price || "");
+    });
+
+    console.log(pricefilter);
+    dispatch(setCopyList(pricefilter));
   };
 
   //search
@@ -200,6 +206,7 @@ const Home = () => {
           <div
             style={{
               marginTop: "2rem",
+              display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -210,34 +217,47 @@ const Home = () => {
                 type="search"
                 name="idval"
                 id="idval"
-                value={filterID}
-                onInput={(e) => requestFilterID(e.target.value)}
+                value={filter?.id || ""}
+                onInput={(e) =>
+                  requestFilter({ ...filter, id: e.target.value })
+                }
                 style={{ fontSize: "1rem" }}
               />
             </div>
-          </div>
 
-          <div
-            style={{
-              marginTop: "2rem",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
             <div style={{ margin: "1rem" }}>
               <label style={{ margin: "0.5rem" }}>Title:</label>
               <input
                 type="search"
                 name="titleval"
                 id="titleval"
-                value={filterTitle}
-                onInput={(e) => requestFilterTitle(e.target.value)}
+                value={filter?.title || ""}
+                onInput={(e) =>
+                  requestFilter({ ...filter, title: e.target.value })
+                }
+                style={{ fontSize: "1rem" }}
+              />
+            </div>
+
+            <div style={{ margin: "1rem" }}>
+              <label style={{ margin: "0.5rem" }}>Price:</label>
+              <input
+                type="search"
+                name="priceval"
+                id="priceval"
+                value={filter?.price || ""}
+                onInput={(e) =>
+                  requestFilter({ ...filter, price: e.target.value })
+                }
                 style={{ fontSize: "1rem" }}
               />
             </div>
           </div>
 
           {copyList?.length === 0 && searching && (
+            <h1>No Similar Results Found</h1>
+          )}
+          {copyList?.length === 0 && filtering && (
             <h1>No Similar Results Found</h1>
           )}
           <Box
