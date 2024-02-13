@@ -146,6 +146,7 @@ const Home = () => {
 
   //search
   const rows = copyList.length > 0 ? copyList : data;
+  const searchIn = ["id", "title", "price"];
 
   return (
     <>
@@ -211,47 +212,27 @@ const Home = () => {
               justifyContent: "center",
             }}
           >
-            <div style={{ margin: "1rem" }}>
-              <label style={{ margin: "0.5rem" }}>ID:</label>
-              <input
-                type="search"
-                name="idval"
-                id="idval"
-                value={filter?.id || ""}
-                onInput={(e) =>
-                  requestFilter({ ...filter, id: e.target.value })
-                }
-                style={{ fontSize: "1rem" }}
-              />
-            </div>
+            {/*  */}
 
-            <div style={{ margin: "1rem" }}>
-              <label style={{ margin: "0.5rem" }}>Title:</label>
-              <input
-                type="search"
-                name="titleval"
-                id="titleval"
-                value={filter?.title || ""}
-                onInput={(e) =>
-                  requestFilter({ ...filter, title: e.target.value })
-                }
-                style={{ fontSize: "1rem" }}
-              />
-            </div>
+            {searchIn.map((feild) => (
+              <div style={{ margin: "1rem" }} key={feild}>
+                <label style={{ margin: "0.5rem" }} htmlFor={feild + "val"}>
+                  {feild}:
+                </label>
+                <input
+                  type="search"
+                  name={feild + "val"}
+                  id={feild + "val"}
+                  value={filter?.[feild] || ""}
+                  onInput={(e) =>
+                    requestFilter({ ...filter, [feild]: e.target.value })
+                  }
+                  style={{ fontSize: "1rem" }}
+                />
+              </div>
+            ))}
 
-            <div style={{ margin: "1rem" }}>
-              <label style={{ margin: "0.5rem" }}>Price:</label>
-              <input
-                type="search"
-                name="priceval"
-                id="priceval"
-                value={filter?.price || ""}
-                onInput={(e) =>
-                  requestFilter({ ...filter, price: e.target.value })
-                }
-                style={{ fontSize: "1rem" }}
-              />
-            </div>
+            {/* hii */}
           </div>
 
           {copyList?.length === 0 && searching && (
