@@ -5,9 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  a{
+
+  a {
     color: white;
   }
+
   a:visited {
     color: white;
     text-decoration: none;
@@ -20,4 +22,12 @@ code {
 }
 
 
+.css-fxbtpg,
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper,
+.css-mkzahr-MuiListSubheader-root {
+  background-color: #ece6e3 !important;
+}
 
+.css-1slnj5u-MuiPaper-root {
+  background-color: #e0d6d1 !important;
+}

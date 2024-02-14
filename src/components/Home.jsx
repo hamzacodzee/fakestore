@@ -127,7 +127,7 @@ const Home = () => {
   };
   const requestFilter = ({ id, title, price, minprice, maxprice }) => {
     dispatch(setFilter({ id, title, price, minprice, maxprice }));
-    console.log(id, title, price, minprice, maxprice);
+    // console.log(id, title, price, minprice, maxprice);
 
     let filteredData = data;
 

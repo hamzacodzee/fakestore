@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
 import DatePicker from './components/DatePicker';
 import ViewProduct from './components/ViewProduct';
+import Dashboard from './components/Dashboard';
 
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/edit" element={<Protected Component={Edit} />} />
         <Route path="/viewproduct/:id" element={<Protected Component={ViewProduct} />} />
         <Route path="/age" element={<DatePicker />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
 
       </Routes>
