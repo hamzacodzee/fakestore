@@ -125,9 +125,9 @@ const Home = () => {
       return rawdata?.includes(filterValue?.toLowerCase() || "");
     });
   };
-  const requestFilter = ({ id, title, price, pricemin, pricemax }) => {
-    dispatch(setFilter({ id, title, price, pricemin, pricemax }));
-    console.log(id, title, price, pricemin, pricemax);
+  const requestFilter = ({ id, title, price, minprice, maxprice }) => {
+    dispatch(setFilter({ id, title, price, minprice, maxprice }));
+    console.log(id, title, price, minprice, maxprice);
 
     let filteredData = data;
 
@@ -143,36 +143,47 @@ const Home = () => {
       filteredData = filterData(filteredData, "price", price);
     }
 
-    if (pricemin) {
-      filteredData = filterData(filteredData, "price", pricemin);
-    }
-
-    if (pricemax) {
+    if (minprice) {
       const priceFunc = () => {
         return filteredData?.filter((item) => {
           const itemPrice = parseFloat(item?.["price"]);
-          const maxPrice = parseFloat(pricemax);
-          const minPrice = parseFloat(pricemin);
-          console.log("itemPrice:", itemPrice);
-          console.log("maxPrice:", maxPrice);
-          console.log("minPrice:", minPrice);
-          console.log(
-            "Comparison result:",
-            itemPrice < maxPrice && itemPrice > minPrice
-          );
+          const maxPrice = parseFloat(maxprice) || 1000000;
+          const minPrice = parseFloat(minprice) || 0;
           return itemPrice < maxPrice && itemPrice > minPrice;
         });
       };
 
       filteredData = priceFunc();
+      dispatch(setFiltering(minprice ? minprice : ""));
     }
-    console.log(filteredData);
+
+    if (maxprice) {
+      const priceFunc = () => {
+        return filteredData?.filter((item) => {
+          const itemPrice = parseFloat(item?.["price"]);
+          const maxPrice = parseFloat(maxprice) || 0;
+          const minPrice = parseFloat(minprice) || 0;
+          // console.log("itemPrice:", itemPrice);
+          // console.log("maxPrice:", maxPrice);
+          // console.log("minPrice:", minPrice);
+          // console.log(
+          //   "Comparison result:",
+          //   itemPrice < maxPrice && itemPrice > minPrice
+          // );
+          return itemPrice < maxPrice && itemPrice > minPrice;
+        });
+      };
+
+      filteredData = priceFunc();
+      dispatch(setFiltering(maxprice ? maxprice : ""));
+    }
+
     dispatch(setCopyList(filteredData));
   };
 
   //search
   const rows = copyList.length > 0 ? copyList : data;
-  const searchIn = ["id", "title", "price", "pricemin", "pricemax"];
+  const searchIn = ["id", "title", "price", "minprice", "maxprice"];
 
   return (
     <>
@@ -238,20 +249,29 @@ const Home = () => {
               justifyContent: "center",
             }}
           >
-            {searchIn.map((feild) => (
-              <div style={{ margin: "1rem" }} key={feild}>
-                <label style={{ margin: "0.5rem" }} htmlFor={feild + "val"}>
-                  {feild}:
+            {searchIn.map((field) => (
+              <div style={{ margin: "1rem" }} key={field}>
+                <label
+                  style={{
+                    margin: "0.5rem",
+                    display: field === "price" ? "none" : "block",
+                  }}
+                  htmlFor={field + "val"}
+                >
+                  {field}:
                 </label>
                 <input
                   type="search"
-                  name={feild + "val"}
-                  id={feild + "val"}
-                  value={filter?.[feild] || ""}
+                  name={field + "val"}
+                  id={field + "val"}
+                  value={filter?.[field] || ""}
                   onInput={(e) =>
-                    requestFilter({ ...filter, [feild]: e.target.value })
+                    requestFilter({ ...filter, [field]: e.target.value })
                   }
-                  style={{ fontSize: "1rem" }}
+                  style={{
+                    fontSize: "1rem",
+                    display: field === "price" ? "none" : "block",
+                  }}
                 />
               </div>
             ))}
