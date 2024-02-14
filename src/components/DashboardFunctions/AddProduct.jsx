@@ -60,7 +60,18 @@ const AddProduct = () => {
   return (
     <DashboardLayout>
       <div>
-        <h1>Add Product</h1>
+        <h1>Add Product
+
+
+Date :- 14 - 02 - 2024
+—-------------------------
+TE-13: Added Min Max Range Filter
+TE-14: Created Admin Dashboard Using MUI
+TE-15: Created Add Products Page (MUI,Formik,Yup)
+TE-15: Created VeiwAllProducts Page (MUI,DataGrid)
+
+
+        </h1>
         <div>
           <form onSubmit={handleSubmit}>
             <TextField
