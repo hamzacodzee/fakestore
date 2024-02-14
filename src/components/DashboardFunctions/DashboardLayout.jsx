@@ -13,8 +13,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { MainListItems } from "../listItems";
-
+import { MainListItems } from "./listItems";
 
 function Copyright(props) {
   return (

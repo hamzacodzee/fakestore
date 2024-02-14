@@ -33,16 +33,29 @@ const ViewProduct = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginTop:"3%"
+          marginTop: "3%",
         }}
       >
-        <Card sx={{ maxWidth: "600px", m: 1, p: 5, marginBottom: "30px", padding:"2rem" }}>
-          <CardActionArea sx={{padding:"2rem"}}>
+        <Card
+          sx={{
+            maxWidth: "600px",
+            m: 1,
+            p: 5,
+            marginBottom: "30px",
+            padding: "2rem",
+          }}
+        >
+          <CardActionArea sx={{ padding: "2rem" }}>
             <CardMedia
               component="img"
               image={product?.image}
               alt={product?.image}
-              sx={{ height: "400px", objectFit: "contain", marginTop:"2rem",marginBottom:"2rem" }}
+              sx={{
+                height: "400px",
+                objectFit: "contain",
+                marginTop: "2rem",
+                marginBottom: "2rem",
+              }}
             />
             <CardContent>
               <Typography
@@ -62,19 +75,20 @@ const ViewProduct = () => {
               </Typography>
               <Typography
                 variant="body1"
-                sx={{ textAlign: "left", marginTop:"0.5rem" }}
+                sx={{ textAlign: "left", marginTop: "0.5rem" }}
               >
                 {product?.description}
               </Typography>
               <Typography
                 variant="body1"
-                sx={{ textAlign: "left", marginTop:"0.5rem" }}
+                sx={{ textAlign: "left", marginTop: "0.5rem" }}
               >
-                Rating: {product?.rating?.rate} (Reviews: {product?.rating?.count})
+                Rating: {product?.rating?.rate} (Reviews:{" "}
+                {product?.rating?.count})
               </Typography>
               <Typography
                 variant="body1"
-                sx={{ textAlign: "left", marginTop:"0.5rem" }}
+                sx={{ textAlign: "left", marginTop: "0.5rem" }}
               >
                 #{product?.category}
               </Typography>

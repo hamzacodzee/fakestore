@@ -11,18 +11,37 @@ import LayersIcon from "@mui/icons-material/Layers";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { useNavigate } from "react-router-dom";
+import ViewCompactIcon from "@mui/icons-material/ViewCompact";
 
 export const MainListItems = () => {
   const navigate = useNavigate();
   return (
     <React.Fragment>
-      <ListItemButton onClick={()=>{navigate("/dashboard")}}>
+      <ListItemButton
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+      >
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItemButton>
-      <ListItemButton onClick={()=>{navigate("/addproduct")}}>
+      <ListItemButton
+        onClick={() => {
+          navigate("/viewallproducts");
+        }}
+      >
+        <ListItemIcon>
+          <ViewCompactIcon />
+        </ListItemIcon>
+        <ListItemText primary="View All Product" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={() => {
+          navigate("/addproduct");
+        }}
+      >
         <ListItemIcon>
           <LibraryAddIcon />
         </ListItemIcon>

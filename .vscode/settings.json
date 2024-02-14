@@ -5,6 +5,7 @@
         "appbar",
         "autowidth",
         "catdata",
+        "fakestore",
         "feild",
         "Formik",
         "helpertext",
@@ -27,6 +28,7 @@
         "titleval",
         "toastify",
         "Uttarakhand",
+        "viewallproducts",
         "viewproduct"
     ]
 }

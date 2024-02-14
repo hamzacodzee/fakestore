@@ -12,6 +12,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   title: yup.string("Enter your Title").required("Title is required").min(3),
@@ -34,23 +35,23 @@ const AddProduct = () => {
       title: "abc",
       description: "123abcxyz",
       category: "hii",
-      price: "123",
-      pic: "",
+      price: "1000",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      //   const userDetail = localStorage.getItem("users");
-      //   const allUsers = JSON.parse(userDetail) || [];
-      //   const user = allUsers.find((user) => user?.email === values["email"]);
-      //   if (user) {
-      //     toast.error("User Already Existed");
-      //   } else {
-      //     const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-      //     const updatedUsers = [...existingUsers, values];
-      //     localStorage.setItem("users", JSON.stringify(updatedUsers));
-      //     navigate("/");
-      //   }
-      console.log(values);
+      const productDetail = localStorage.getItem("products");
+      const allProducts = JSON.parse(productDetail) || [];
+      const product = allProducts.find(
+        (product) => product?.title === values["title"]
+      );
+      if (product) {
+        toast.error("Product Already Existed");
+      } else {
+        const existingProducts =
+          JSON.parse(localStorage.getItem("products")) || [];
+        const updatedProducts = [...existingProducts, values];
+        localStorage.setItem("products", JSON.stringify(updatedProducts));
+      }
     },
   });
   const { touched, errors, handleBlur, handleSubmit, handleChange, values } =
@@ -127,24 +128,6 @@ const AddProduct = () => {
               </Select>
             </FormControl>
             <br />
-            <br />
-            <div style={{ textAlign: "left" }}>
-              <label htmlFor="pic" style={{ marginRight: "0.5rem" }}>
-                Upload Image:
-              </label>
-              <input
-                type="file"
-                name="pic"
-                id="pic"
-                autoComplete="on"
-                value={values.pic}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched?.pic && errors?.pic}
-                helpertext={touched?.pic && errors?.pic}
-                required
-              />
-            </div>
 
             <br />
             <Button color="primary" variant="contained" fullWidth type="submit">

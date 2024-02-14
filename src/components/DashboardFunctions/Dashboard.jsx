@@ -14,7 +14,7 @@ import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { MainListItems } from "./listItems";
-import AddProduct from "./DashboardFunctions/AddProduct";
+
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
@@ -38,8 +38,6 @@ function Copyright(props) {
 }
 
 const drawerWidth = 240;
-
-
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -80,7 +78,7 @@ export default function Dashboard() {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -116,7 +114,6 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              
               {/* <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
@@ -130,7 +127,6 @@ export default function Dashboard() {
                 </Paper>
               </Grid> */}
 
-              
               {/* <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -146,7 +142,7 @@ export default function Dashboard() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <AddProduct />
+                  {/* <Orders /> */}
                 </Paper>
               </Grid>
             </Grid>
