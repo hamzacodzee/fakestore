@@ -15,8 +15,8 @@ export const addModalSlice = createSlice({
         },
 
         getData: (state, action) => {
-            const result = localStorage.getItem("products");
-            state.products = JSON.parse(result) || [];
+            const result = JSON.parse(localStorage.getItem("products"));
+            state.products = result || [];
         },
 
 
@@ -25,6 +25,6 @@ export const addModalSlice = createSlice({
 })
 
 
-export const { setOpen,getData } = addModalSlice.actions
+export const { setOpen, getData } = addModalSlice.actions
 
 export default addModalSlice.reducer

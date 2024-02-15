@@ -14,7 +14,15 @@ const ViewAllProducts = () => {
     dispatch(getData());
   }, [dispatch]);
 
-  const editUser = (id,product) => {console.log(id,product)};
+  const editUser = (id, product) => {
+    console.log(id, product);
+  };
+  const deleteUser = (id) => {
+    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
+    existingProducts.splice(id, 1);
+    localStorage.setItem("products", JSON.stringify(existingProducts));
+    dispatch(getData());
+  };
 
   const products = useSelector((state) => state.addModal.products);
   const columnsName = ["title", "description", "category", "price"];
@@ -33,7 +41,7 @@ const ViewAllProducts = () => {
           <EditNoteIcon onClick={() => editUser(params.row.id, params.row)} />
         </i>
         <i>
-          <DeleteIcon />
+          <DeleteIcon onClick={() => deleteUser(params.row.id)} />
         </i>
         &nbsp;
       </>
