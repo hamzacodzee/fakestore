@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { setOpen,getData } from "../../store/slice/AddModalSlice";
+import { setOpen, getData } from "../../store/slice/AddModalSlice";
 import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
@@ -32,8 +32,10 @@ const validationSchema = yup.object({
 const AddProduct = () => {
   const dispatch = useDispatch();
 
-  const handleClose = () => {dispatch(setOpen(false));dispatch(getData());};
-
+  const handleClose = () => {
+    dispatch(setOpen(false));
+    dispatch(getData());
+  };
 
   const formik = useFormik({
     initialValues: {

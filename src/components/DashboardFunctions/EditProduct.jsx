@@ -10,9 +10,9 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { toast } from "react-toastify";
-import { setOpen, getData } from "../../store/slice/AddModalSlice";
-import { useDispatch } from "react-redux";
+
+import { setOpenEdit, getData } from "../../store/slice/AddModalSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const validationSchema = yup.object({
   title: yup.string("Enter your Title").required("Title is required").min(3),
@@ -30,36 +30,30 @@ const validationSchema = yup.object({
 });
 
 const EditProduct = () => {
+  const { id, title, description, category, price } = useSelector(
+    (state) => state.addModal.edit.product
+  );
   const dispatch = useDispatch();
 
-  const handleClose = () => {
-    dispatch(setOpen(false));
+  const handleCloseEdit = () => {
+    dispatch(setOpenEdit(false));
     dispatch(getData());
   };
 
   const formik = useFormik({
     initialValues: {
-      title: "abc",
-      description: "123abcxyz",
-      category: "hii",
-      price: "1000",
+      title,
+      description,
+      category,
+      price,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      const productDetail = localStorage.getItem("products");
-      const allProducts = JSON.parse(productDetail) || [];
-      const product = allProducts.find(
-        (product) => product?.title === values["title"]
-      );
-      if (product) {
-        toast.error("Product Already Existed");
-      } else {
-        const existingProducts =
-          JSON.parse(localStorage.getItem("products")) || [];
-        const updatedProducts = [...existingProducts, values];
-        localStorage.setItem("products", JSON.stringify(updatedProducts));
-        handleClose();
-      }
+      const existingProducts =
+        JSON.parse(localStorage.getItem("products")) || [];
+      existingProducts[id] = values;
+      localStorage.setItem("products", JSON.stringify(existingProducts));
+      handleCloseEdit();
     },
   });
   const { touched, errors, handleBlur, handleSubmit, handleChange, values } =
@@ -67,7 +61,7 @@ const EditProduct = () => {
 
   return (
     <div>
-      <h1>Add Product</h1>
+      <h1>Edit Product</h1>
       <div>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -132,6 +126,7 @@ const EditProduct = () => {
               label="category"
             >
               <MenuItem value="hii">hii</MenuItem>
+              <MenuItem value="bye">bye</MenuItem>
             </Select>
           </FormControl>
           <br />
