@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { setOpenEdit, getData } from "../../store/slice/AddModalSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   title: yup.string("Enter your Title").required("Title is required").min(3),
@@ -53,6 +54,7 @@ const EditProduct = () => {
       existingProducts[id] = values;
       localStorage.setItem("products", JSON.stringify(existingProducts));
       handleCloseEdit();
+      toast.success("Edited Successfully");
     },
   });
   const { touched, errors, handleBlur, handleSubmit, handleChange, values } =

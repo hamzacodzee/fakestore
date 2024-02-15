@@ -13,6 +13,7 @@ import {
   setOpenEdit,
 } from "../../store/slice/AddModalSlice";
 import EditProduct from "./EditProduct";
+import { toast } from "react-toastify";
 
 const ViewAllProducts = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const ViewAllProducts = () => {
     existingProducts.splice(id, 1);
     localStorage.setItem("products", JSON.stringify(existingProducts));
     dispatch(getData());
+    toast.success("Deleted Successfully");
   };
 
   const handleOpenEdit = (product) => {

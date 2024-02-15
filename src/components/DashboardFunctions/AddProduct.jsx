@@ -58,6 +58,7 @@ const AddProduct = () => {
           JSON.parse(localStorage.getItem("products")) || [];
         const updatedProducts = [...existingProducts, values];
         localStorage.setItem("products", JSON.stringify(updatedProducts));
+        toast.success("Added Successfully");
         handleClose();
       }
     },

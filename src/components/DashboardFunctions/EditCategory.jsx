@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
 import { setOpenEdit, getData } from "../../store/slice/CategorySlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   name: yup
@@ -48,6 +49,7 @@ const EditCategory = () => {
       localStorage.setItem("products", JSON.stringify(updatedProducts));
       dispatch(getData());
       handleCloseEdit();
+      toast.success("Edited Successfully")
     },
   });
   const { touched, errors, handleBlur, handleSubmit, handleChange, values } =

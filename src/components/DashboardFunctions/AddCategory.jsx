@@ -41,6 +41,7 @@ const AddCategory = () => {
         const updatedCategorys = [...existingCategorys, values];
         localStorage.setItem("categorys", JSON.stringify(updatedCategorys));
         handleClose();
+        toast.success("Added Successfully");
       }
     },
   });

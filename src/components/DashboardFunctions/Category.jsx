@@ -24,6 +24,7 @@ import {
 
 import EditCategory from "./EditCategory";
 import AddCategory from "./AddCategory";
+import { toast } from "react-toastify";
 
 const Category = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,8 @@ const Category = () => {
 
     dispatch(getData());
     handleClose();
+    toast.success("Deleted Successfully");
+
   };
 
   const handleOpenEdit = (category) => {
