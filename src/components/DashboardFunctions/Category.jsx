@@ -3,13 +3,23 @@ import DashboardLayout from "./DashboardLayout";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { Box, Button, Modal } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Modal,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setOpen,
   getData,
   setEdit,
   setOpenEdit,
+  setDelete,
 } from "../../store/slice/CategorySlice";
 
 import EditCategory from "./EditCategory";
@@ -17,24 +27,44 @@ import AddCategory from "./AddCategory";
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { categorys } = useSelector((state) => state.category);
+  const { categorys, deleteId } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
 
-  const deleteCategory = (id) => {
+  const [openConfirm, setOpenConfirm] = React.useState(false);
+
+  const handleClickOpen = (id) => {
+    setOpenConfirm(true);
+    dispatch(setDelete(id));
+  };
+
+  const handleClose = () => {
+    setOpenConfirm(false);
+  };
+
+  const handleAgree = () => {
     const existingCategory =
       JSON.parse(localStorage.getItem("categorys")) || [];
-    existingCategory.splice(id, 1);
+    const deletedCategory = existingCategory.splice(deleteId, 1); // Use slice instead of splice
     localStorage.setItem("categorys", JSON.stringify(existingCategory));
+
+    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
+
+    const updatedProducts = existingProducts.filter((product) => {
+      return product.category !== deletedCategory[0].name;
+    }); // Compare with category
+
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+
     dispatch(getData());
+    handleClose();
   };
 
   const handleOpenEdit = (category) => {
     dispatch(setOpenEdit(true));
     dispatch(setEdit({ category }));
-    
   };
 
   const columnsName = ["name"];
@@ -53,7 +83,7 @@ const Category = () => {
           <EditNoteIcon onClick={() => handleOpenEdit(params.row)} />
         </i>
         <i>
-          <DeleteIcon onClick={() => deleteCategory(params.row.id)} />
+          <DeleteIcon onClick={() => handleClickOpen(params.row.id)} />
         </i>
         &nbsp;
       </>
@@ -151,6 +181,26 @@ const Category = () => {
           />
         </div>
       </div>
+      <Dialog
+        open={openConfirm}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{ m: 5 }}
+      >
+        <DialogTitle id="alert-dialog-title">{"Are You Sure?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            All Products With This Category Will Be Deleted.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleAgree} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </DashboardLayout>
   );
 };

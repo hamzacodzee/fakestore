@@ -5,6 +5,7 @@ const initialState = {
     categorys: [],
     openEdit: false,
     edit: "",
+    deleteId: "",
 }
 
 export const categorySlice = createSlice({
@@ -28,12 +29,15 @@ export const categorySlice = createSlice({
         setEdit: (state, action) => {
             state.edit = action.payload
         },
+        setDelete: (state, action) => {
+            state.deleteId = action.payload
+        },
 
     },
 
 })
 
 
-export const { setOpen, getData, setOpenEdit, setEdit } = categorySlice.actions
+export const { setOpen, getData, setOpenEdit, setEdit, setDelete } = categorySlice.actions
 
 export default categorySlice.reducer

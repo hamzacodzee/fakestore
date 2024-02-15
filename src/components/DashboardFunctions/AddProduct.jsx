@@ -132,7 +132,9 @@ const AddProduct = () => {
               label="category"
             >
               {JSON.parse(localStorage.getItem("categorys"))?.map((item) => (
-                <MenuItem value={item.name} key={item.name}>{item.name}</MenuItem>
+                <MenuItem value={item.name} key={item.name}>
+                  {item.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
