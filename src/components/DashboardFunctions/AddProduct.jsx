@@ -24,7 +24,7 @@ const validationSchema = yup.object({
   category: yup
     .string("Enter your category")
     .required("category is required")
-    .min(3),
+    .min(2),
 
   price: yup.number("Enter Price").required("Price is required"),
 });
@@ -41,7 +41,7 @@ const AddProduct = () => {
     initialValues: {
       title: "abc",
       description: "123abcxyz",
-      category: "hii",
+      category: "mobile",
       price: "1000",
     },
     validationSchema: validationSchema,
@@ -131,7 +131,9 @@ const AddProduct = () => {
               name="category"
               label="category"
             >
-              <MenuItem value="hii">hii</MenuItem>
+              {JSON.parse(localStorage.getItem("categorys"))?.map((item) => (
+                <MenuItem value={item.name} key={item.name}>{item.name}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <br />

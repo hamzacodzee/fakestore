@@ -12,6 +12,7 @@ import DatePicker from './components/DatePicker';
 import ViewProduct from './components/ViewProduct';
 import Dashboard from './components/DashboardFunctions/Dashboard';
 import ViewAllProducts from './components/DashboardFunctions/ViewAllProducts';
+import Category from './components/DashboardFunctions/Category';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/age" element={<DatePicker />} />
         <Route path="/dashboard" element={<Protected Component={Dashboard} />} />
         <Route path="/viewallproducts" element={<Protected Component={ViewAllProducts} />} />
+        <Route path="/category" element={<Protected Component={Category} />} />
 
 
 

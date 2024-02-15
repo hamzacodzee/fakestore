@@ -4,41 +4,43 @@ import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { Box, Button, Modal } from "@mui/material";
-import AddProduct from "./AddProduct";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setOpen,
   getData,
   setEdit,
   setOpenEdit,
-} from "../../store/slice/AddModalSlice";
-import EditProduct from "./EditProduct";
+} from "../../store/slice/CategorySlice";
 
-const ViewAllProducts = () => {
+import EditCategory from "./EditCategory";
+import AddCategory from "./AddCategory";
+
+const Category = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.addModal);
+  const { categorys } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
 
-  const deleteProduct = (id) => {
-    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
-    existingProducts.splice(id, 1);
-    localStorage.setItem("products", JSON.stringify(existingProducts));
+  const deleteCategory = (id) => {
+    const existingCategory =
+      JSON.parse(localStorage.getItem("categorys")) || [];
+    existingCategory.splice(id, 1);
+    localStorage.setItem("categorys", JSON.stringify(existingCategory));
     dispatch(getData());
   };
 
-  const handleOpenEdit = (product) => {
+  const handleOpenEdit = (category) => {
     dispatch(setOpenEdit(true));
-    dispatch(setEdit({ product }));
+    dispatch(setEdit({ category }));
+    
   };
 
-  const columnsName = ["title", "description", "category", "price"];
+  const columnsName = ["name"];
   const columns = columnsName.map((item) => ({
     field: item,
     headerName: item[0].toUpperCase() + item.slice(1),
-    width: item === "title" ? 150 : item === "description" ? 200 : 100,
   }));
   columns.push({
     field: "Action",
@@ -51,19 +53,16 @@ const ViewAllProducts = () => {
           <EditNoteIcon onClick={() => handleOpenEdit(params.row)} />
         </i>
         <i>
-          <DeleteIcon onClick={() => deleteProduct(params.row.id)} />
+          <DeleteIcon onClick={() => deleteCategory(params.row.id)} />
         </i>
         &nbsp;
       </>
     ),
   });
 
-  const rows = products.map((product, index) => ({
+  const rows = categorys.map((category, index) => ({
     id: index,
-    title: product.title,
-    description: product.description,
-    category: product.category,
-    price: product.price,
+    name: category.name,
   }));
 
   const modalStyle = {
@@ -80,13 +79,13 @@ const ViewAllProducts = () => {
 
   const AddModal = () => {
     const dispatch = useDispatch();
-    const open = useSelector((state) => state.addModal.open);
+    const open = useSelector((state) => state.category.open);
     const handleOpen = () => dispatch(setOpen(true));
     const handleClose = () => dispatch(setOpen(false));
 
     return (
       <div>
-        <Button onClick={handleOpen}>+ Add Product</Button>
+        <Button onClick={handleOpen}>+ Add Category</Button>
         <Modal
           open={open}
           onClose={handleClose}
@@ -94,7 +93,7 @@ const ViewAllProducts = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <AddProduct />
+            <AddCategory />
           </Box>
         </Modal>
       </div>
@@ -102,7 +101,7 @@ const ViewAllProducts = () => {
   };
   const EditModal = () => {
     const dispatch = useDispatch();
-    const openEdit = useSelector((state) => state.addModal.openEdit);
+    const openEdit = useSelector((state) => state.category.openEdit);
 
     const handleCloseEdit = () => dispatch(setOpenEdit(false));
 
@@ -115,7 +114,7 @@ const ViewAllProducts = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <EditProduct />
+            <EditCategory />
           </Box>
         </Modal>
       </div>
@@ -125,7 +124,7 @@ const ViewAllProducts = () => {
   return (
     <DashboardLayout>
       <div>
-        <h1>View All Products</h1>
+        <h1>Categories</h1>
         <AddModal />
         <EditModal />
         <div style={{ width: "100%", textAlign: "center" }}>
@@ -156,4 +155,4 @@ const ViewAllProducts = () => {
   );
 };
 
-export default ViewAllProducts;
+export default Category;
