@@ -9,7 +9,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
-import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+// import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { useNavigate } from "react-router-dom";
 import ViewCompactIcon from "@mui/icons-material/ViewCompact";
 
@@ -37,16 +37,7 @@ export const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="View All Product" />
       </ListItemButton>
-      <ListItemButton
-        onClick={() => {
-          navigate("/addproduct");
-        }}
-      >
-        <ListItemIcon>
-          <LibraryAddIcon />
-        </ListItemIcon>
-        <ListItemText primary="Add Product" />
-      </ListItemButton>
+
       <ListItemButton>
         <ListItemIcon>
           <ShoppingCartIcon />

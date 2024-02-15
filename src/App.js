@@ -11,7 +11,6 @@ import { ToastContainer } from 'react-toastify';
 import DatePicker from './components/DatePicker';
 import ViewProduct from './components/ViewProduct';
 import Dashboard from './components/DashboardFunctions/Dashboard';
-import AddProduct from './components/DashboardFunctions/AddProduct';
 import ViewAllProducts from './components/DashboardFunctions/ViewAllProducts';
 
 
@@ -30,7 +29,7 @@ function App() {
         <Route path="/age" element={<DatePicker />} />
         <Route path="/dashboard" element={<Protected Component={Dashboard} />} />
         <Route path="/viewallproducts" element={<Protected Component={ViewAllProducts} />} />
-        <Route path="/addproduct" element={<Protected Component={AddProduct} />} />
+
 
 
 

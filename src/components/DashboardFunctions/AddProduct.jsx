@@ -2,8 +2,6 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import DashboardLayout from "./DashboardLayout";
-
 import {
   Button,
   FormControl,
@@ -13,6 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import { toast } from "react-toastify";
+import { setOpen,getData } from "../../store/slice/AddModalSlice";
+import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
   title: yup.string("Enter your Title").required("Title is required").min(3),
@@ -30,6 +30,11 @@ const validationSchema = yup.object({
 });
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
+
+  const handleClose = () => {dispatch(setOpen(false));dispatch(getData());};
+
+
   const formik = useFormik({
     initialValues: {
       title: "abc",
@@ -51,6 +56,7 @@ const AddProduct = () => {
           JSON.parse(localStorage.getItem("products")) || [];
         const updatedProducts = [...existingProducts, values];
         localStorage.setItem("products", JSON.stringify(updatedProducts));
+        handleClose();
       }
     },
   });
@@ -58,85 +64,83 @@ const AddProduct = () => {
     formik;
 
   return (
-    <DashboardLayout>
+    <div>
+      <h1>Add Product</h1>
       <div>
-        <h1>Add Product</h1>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              fullWidth
-              id="title"
-              name="title"
-              label="Title"
-              type="text"
-              autoComplete="on"
-              value={values.title}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched?.title && Boolean(errors?.title)}
-              helperText={touched?.title && errors?.title}
-            />
-            <br />
-            <br />
-            <TextField
-              fullWidth
-              id="description"
-              name="description"
-              label="Description"
-              type="text"
-              autoComplete="on"
-              value={values.description}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched?.description && Boolean(errors?.description)}
-              helperText={touched?.description && errors?.description}
-              multiline
-              maxRows={4}
-            />
-            <br />
-            <br />
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            id="title"
+            name="title"
+            label="Title"
+            type="text"
+            autoComplete="on"
+            value={values.title}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched?.title && Boolean(errors?.title)}
+            helperText={touched?.title && errors?.title}
+          />
+          <br />
+          <br />
+          <TextField
+            fullWidth
+            id="description"
+            name="description"
+            label="Description"
+            type="text"
+            autoComplete="on"
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched?.description && Boolean(errors?.description)}
+            helperText={touched?.description && errors?.description}
+            multiline
+            maxRows={4}
+          />
+          <br />
+          <br />
 
-            <TextField
-              fullWidth
-              id="price"
-              name="price"
-              label="Price"
-              type="text"
+          <TextField
+            fullWidth
+            id="price"
+            name="price"
+            label="Price"
+            type="text"
+            autoComplete="on"
+            value={values.price}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched?.price && Boolean(errors?.price)}
+            helperText={touched?.price && errors?.price}
+          />
+          <br />
+          <br />
+          <FormControl required fullWidth sx={{ textAlign: "left" }}>
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            <Select
               autoComplete="on"
-              value={values.price}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={values.category}
               onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched?.price && Boolean(errors?.price)}
-              helperText={touched?.price && errors?.price}
-            />
-            <br />
-            <br />
-            <FormControl required fullWidth sx={{ textAlign: "left" }}>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
-              <Select
-                autoComplete="on"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={values.category}
-                onChange={handleChange}
-                error={touched?.category && Boolean(errors?.category)}
-                helpertext={touched?.category && errors?.category}
-                name="category"
-                label="category"
-              >
-                <MenuItem value="hii">hii</MenuItem>
-              </Select>
-            </FormControl>
-            <br />
+              error={touched?.category && Boolean(errors?.category)}
+              helpertext={touched?.category && errors?.category}
+              name="category"
+              label="category"
+            >
+              <MenuItem value="hii">hii</MenuItem>
+            </Select>
+          </FormControl>
+          <br />
 
-            <br />
-            <Button color="primary" variant="contained" fullWidth type="submit">
-              Submit
-            </Button>
-          </form>
-        </div>
+          <br />
+          <Button color="primary" variant="contained" fullWidth type="submit">
+            Submit
+          </Button>
+        </form>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

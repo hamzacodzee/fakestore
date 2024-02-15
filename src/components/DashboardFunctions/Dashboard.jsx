@@ -111,7 +111,7 @@ export default function Dashboard() {
             overflow: "auto",
           }}
         >
-          <Toolbar />
+          
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* <Grid item xs={12} md={8} lg={9}>
@@ -143,6 +143,7 @@ export default function Dashboard() {
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   {/* <Orders /> */}
+                  <h1>Dashboard</h1>
                 </Paper>
               </Grid>
             </Grid>
