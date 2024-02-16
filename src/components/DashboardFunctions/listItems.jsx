@@ -10,6 +10,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 // import LayersIcon from "@mui/icons-material/Layers";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
 // import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useNavigate } from "react-router-dom";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import TagIcon from "@mui/icons-material/Tag";
@@ -49,7 +50,17 @@ export const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Category" />
       </ListItemButton>
-      
+
+      <ListItemButton
+        onClick={() => {
+          navigate("/event");
+        }}
+      >
+        <ListItemIcon>
+          <CalendarMonthIcon />
+        </ListItemIcon>
+        <ListItemText primary="Events" />
+      </ListItemButton>
     </React.Fragment>
   );
 };
