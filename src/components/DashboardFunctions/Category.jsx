@@ -20,6 +20,7 @@ import {
   setEdit,
   setOpenEdit,
   setDelete,
+  setOpenConfirm,
 } from "../../store/slice/CategorySlice";
 
 import EditCategory from "./EditCategory";
@@ -28,21 +29,21 @@ import { toast } from "react-toastify";
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { categorys, deleteId } = useSelector((state) => state.category);
+  const { categorys, deleteId, openConfirm } = useSelector(
+    (state) => state.category
+  );
 
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
 
-  const [openConfirm, setOpenConfirm] = React.useState(false);
-
   const handleClickOpen = (id) => {
-    setOpenConfirm(true);
+    dispatch(setOpenConfirm(true));
     dispatch(setDelete(id));
   };
 
   const handleClose = () => {
-    setOpenConfirm(false);
+    dispatch(setOpenConfirm(false));
   };
 
   const handleAgree = () => {
@@ -62,7 +63,6 @@ const Category = () => {
     dispatch(getData());
     handleClose();
     toast.success("Deleted Successfully");
-
   };
 
   const handleOpenEdit = (category) => {

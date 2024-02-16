@@ -6,6 +6,7 @@ const initialState = {
     openEdit: false,
     edit: "",
     deleteId: "",
+    openConfirm: false,
 }
 
 export const categorySlice = createSlice({
@@ -33,11 +34,14 @@ export const categorySlice = createSlice({
             state.deleteId = action.payload
         },
 
+        setOpenConfirm: (state, action) => {
+            state.openConfirm = action.payload
+        },
     },
 
 })
 
 
-export const { setOpen, getData, setOpenEdit, setEdit, setDelete } = categorySlice.actions
+export const { setOpen, getData, setOpenEdit, setEdit, setDelete, setOpenConfirm } = categorySlice.actions
 
 export default categorySlice.reducer

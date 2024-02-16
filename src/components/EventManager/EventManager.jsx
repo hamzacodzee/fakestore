@@ -1,71 +1,39 @@
 import React, { useEffect } from "react";
 import DashboardLayout from "../DashboardFunctions/DashboardLayout";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import EditNoteIcon from "@mui/icons-material/EditNote";
+// import EditNoteIcon from "@mui/icons-material/EditNote";
 import { Box, Button, Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setOpen,
   getData,
-  setEdit,
+  // setEdit,
   setOpenEdit,
-} from "../../store/slice/AddModalSlice";
+} from "../../store/slice/EventSlice";
 import EditProduct from "../DashboardFunctions/EditProduct";
-import { toast } from "react-toastify";
-import AddEvent from './AddEvent';
+// import { toast } from "react-toastify";
+import AddEvent from "./AddEvent";
 
 const EventManager = () => {
   const dispatch = useDispatch();
-  // const { products } = useSelector((state) => state.addModal);
+  const { events } = useSelector((state) => state.event);
 
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
 
-  const deleteProduct = (id) => {
-    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
-    existingProducts.splice(id, 1);
-    localStorage.setItem("products", JSON.stringify(existingProducts));
-    dispatch(getData());
-    toast.success("Deleted Successfully");
-  };
+  // const deleteEvent = (id) => {
+  //   const existingEvents = JSON.parse(localStorage.getItem("events")) || [];
+  //   existingEvents.splice(id, 1);
+  //   localStorage.setItem("events", JSON.stringify(existingEvents));
+  //   dispatch(getData());
+  //   toast.success("Deleted Successfully");
+  // };
 
-  const handleOpenEdit = (product) => {
-    dispatch(setOpenEdit(true));
-    dispatch(setEdit({ product }));
-  };
-
-  const columnsName = ["title", "description", "category", "price"];
-  const columns = columnsName.map((item) => ({
-    field: item,
-    headerName: item[0].toUpperCase() + item.slice(1),
-    width: item === "title" ? 150 : item === "description" ? 200 : 100,
-  }));
-  columns.push({
-    field: "Action",
-    headerName: "Action",
-    sortable: false,
-    width: 100,
-    renderCell: (params) => (
-      <>
-        <i>
-          <EditNoteIcon onClick={() => handleOpenEdit(params.row)} />
-        </i>
-        <i>
-          <DeleteIcon onClick={() => deleteProduct(params.row.id)} />
-        </i>
-        &nbsp;
-      </>
-    ),
-  });
-
-  // const rows = products.map((product, index) => ({
-  //   id: index,
-  //   title: product.title,
-  //   description: product.description,
-  //   category: product.category,
-  //   price: product.price,
-  // }));
+  // const handleOpenEdit = (product) => {
+  //   dispatch(setOpenEdit(true));
+  //   dispatch(setEdit({ product }));
+  // };
 
   const modalStyle = {
     position: "absolute",
@@ -81,7 +49,7 @@ const EventManager = () => {
 
   const AddModal = () => {
     const dispatch = useDispatch();
-    const open = useSelector((state) => state.addModal.open);
+    const open = useSelector((state) => state.event.open);
     const handleOpen = () => dispatch(setOpen(true));
     const handleClose = () => dispatch(setOpen(false));
 
@@ -124,7 +92,29 @@ const EventManager = () => {
   };
 
   const Display = () => {
-    return <h1>Display</h1>;
+    return events.map((event, index) => (
+      <div key={index}>
+        <pre
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "1rem",
+          }}
+        >
+          ID: {index + 1} Name: {event.name} Date: {event.dates}{" "}
+          <i
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <DeleteIcon />
+          </i>
+        </pre>
+      </div>
+    ));
   };
 
   return (
