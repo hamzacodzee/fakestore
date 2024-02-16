@@ -13,6 +13,7 @@ import ViewProduct from './components/ViewProduct';
 import Dashboard from './components/DashboardFunctions/Dashboard';
 import ViewAllProducts from './components/DashboardFunctions/ViewAllProducts';
 import Category from './components/DashboardFunctions/Category';
+import FirebaseImageUpload from './components/FirebaseImageUpload/FirebaseImageUpload';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/dashboard" element={<Protected Component={Dashboard} />} />
         <Route path="/viewallproducts" element={<Protected Component={ViewAllProducts} />} />
         <Route path="/category" element={<Protected Component={Category} />} />
+        <Route path="/image" element={<Protected Component={FirebaseImageUpload} />} />
 
 
 
