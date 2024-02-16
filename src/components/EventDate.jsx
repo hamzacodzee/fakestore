@@ -25,15 +25,24 @@ const EventDate = () => {
         { id: 6, name: "Date6" },
       ],
     },
+    {
+      id: 3,
+      name: "pqr",
+      date: [
+        { id: 7, name: "Date7" },
+        { id: 8, name: "Date8" },
+        { id: 9, name: "Date9" },
+      ],
+    },
   ];
 
   const handleCheckAll = (e, arrayIndex) => {
     const isChecked = e.target.checked;
-    console.log(isChecked + " isChecked");
+    // console.log(isChecked + " isChecked");
 
     setCheckAll((prevCheckAll) => !prevCheckAll);
     const allDates = mainArray[arrayIndex].date.map((item) => item.id);
-    console.log(allDates);
+    // console.log(allDates);
     setMainIndex(arrayIndex);
     setCheckedDates((prevCheckedDates) =>
       isChecked
@@ -69,10 +78,9 @@ const EventDate = () => {
                 const dateItem = mainArray[mainIndex].date.find(
                   (date) => date.id === dateId
                 );
-                return dateItem ? dateItem.name : null;
+                return dateItem ? dateItem.id : null;
               })
-              .filter((dateName) => dateName !== null)
-              .join(", "),
+              .filter((dateName) => dateName !== null),
           };
         }
       });
