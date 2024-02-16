@@ -34,7 +34,7 @@ const EventDate = () => {
     setCheckAll((prevCheckAll) => !prevCheckAll);
     const allDates = mainArray[arrayIndex].date.map((item) => item.id);
     console.log(allDates);
-
+    setMainIndex(arrayIndex);
     setCheckedDates((prevCheckedDates) =>
       isChecked
         ? [...new Set([...prevCheckedDates, ...allDates])]
