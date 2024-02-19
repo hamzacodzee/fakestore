@@ -1,11 +1,10 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const EventDate = () => {
   // eslint-disable-next-line
   const [checkAll, setCheckAll] = useState(false);
-  const [mainIndex, setMainIndex] = useState("");
   // eslint-disable-next-line
   const [mainArray, setMainArray] = useState([
     {
@@ -35,6 +34,15 @@ const EventDate = () => {
         { id: 9, name: "Date9" },
       ],
     },
+    {
+      id: 4,
+      name: "qwe",
+      date: [
+        { id: 10, name: "Date10" },
+        { id: 11, name: "Date11" },
+        { id: 12, name: "Date12" },
+      ],
+    },
   ]);
 
   const [checkedDates, setCheckedDates] = useState(
@@ -46,12 +54,16 @@ const EventDate = () => {
   const result = JSON.parse(localStorage.getItem("Events")) || [];
 
   const [saveArray, setSaveArray] = useState(
-    mainArray.map((item, index) => ({
-      event_name: result[index]?.event_name || "",
-      event_id: result[index]?.event_id || "",
-      event_date: result[index]?.event_date.map((item) => item) || [],
-    }))
+    mainArray.map((item, index) => {
+      return {
+        event_name: result[index]?.event_name || "",
+        event_id: result[index]?.event_id || "",
+        event_date: result[index]?.event_date.map((item) => item) || [],
+      };
+    })
   );
+
+  // console.log("saveArray", saveArray);
 
   // useEffect(() => {
   //   console.log(saveArray);
@@ -63,57 +75,89 @@ const EventDate = () => {
     setCheckAll((prevCheckAll) => !prevCheckAll);
     const allDates = mainArray[arrayIndex].date.map((item) => item.id);
 
-    setMainIndex(arrayIndex);
-    setCheckedDates((prevCheckedDates) =>
-      isChecked
+    setCheckedDates((prevCheckedDates) => {
+      const updatedDates = isChecked
         ? [...new Set([...prevCheckedDates, ...allDates])]
-        : prevCheckedDates.filter((id) => !allDates.includes(id))
-    );
+        : prevCheckedDates.filter((id) => !allDates.includes(id));
+      // console.log("After setCheckedDates:", checkedDates);
+      // console.log(updatedDates);
+      handleSaveArray(updatedDates, arrayIndex);
+      return updatedDates;
+    });
   };
 
   const handleDate = (e, mainIndex) => {
-    setMainIndex(mainIndex);
+    // console.log(mainIndex + "mainndex");
     const dateID = parseInt(e.target.value);
-    setCheckedDates((prevCheckedDates) => {
-      if (prevCheckedDates.includes(dateID)) {
-        return prevCheckedDates.filter((id) => id !== dateID);
-      } else {
-        return [...prevCheckedDates, dateID];
-      }
-    });
+    // console.log(dateID + "dateID ");
+
+    const oldCheckedDates = [...checkedDates];
+    // console.log(oldCheckedDates + "oldCheckedDates");
+
+    const updatedDates = oldCheckedDates.includes(dateID)
+      ? oldCheckedDates.filter((id) => id !== dateID)
+      : [...oldCheckedDates, dateID];
+
+    //console.log(updatedDates + "updatedDates");
+    //console.log(oldCheckedDates.includes(dateID) + "check");
+    handleSaveArray(updatedDates, mainIndex);
+    setCheckedDates(updatedDates);
   };
 
-  useEffect(() => {
-    setSaveArray((prevSaveArray) => {
-      const updatedArray = [...prevSaveArray];
-
-      mainArray.forEach((item, index) => {
-        const isMatchingIndex = mainIndex + 1 === item.id;
-
-        if (isMatchingIndex) {
-          updatedArray[index] = {
-            event_name: item.name,
-            event_id: item.id,
-            event_date: checkedDates
-              .map((dateId) => {
-                const dateItem = mainArray[mainIndex].date.find(
-                  (date) => date.id === dateId
-                );
-                return dateItem ? dateItem.id : null;
-              })
-              .filter((dateName) => dateName !== null),
-          };
-        }
-      });
-
-      return updatedArray;
-    });
-    // eslint-disable-next-line
-  }, [checkedDates]);
-
   const handleSave = () => {
+    //console.log(saveArray);
     localStorage.setItem("Events", JSON.stringify(saveArray));
     toast.success("Saved Successfully");
+  };
+
+  const handleSaveArray = (updatedDates, mainIndex) => {
+    let updatedArray = [...saveArray];
+    // console.log(updatedDates, saveArray, " updeateddateshandlesavearray");
+    // console.log(updatedArray + " updatedarrayHANDLESAVEARRAY");
+
+    mainArray.forEach((item, index) => {
+      const isMatchingIndex = mainIndex + 1 === item.id;
+
+      // console.log(
+      //   "mainIndex",
+      //   mainIndex + 1,
+      //   item.id,
+      //   "itemid",
+      //   "condsition",
+      //   parseInt(mainIndex + 1) === item?.id,
+      //   "isMatchingIndex",
+      //   isMatchingIndex
+      // );
+
+      if (isMatchingIndex) {
+        updatedArray[index] = {
+          event_name: item.name,
+          event_id: item.id,
+          event_date: updatedDates
+            .map((dateId) => {
+              // console.log(
+              //   dateId + "datyeeeeeeeeeeeeeeeeeeeeeeeeID",
+              //   parseInt(mainIndex + 1 - 1)
+              // );
+              const dateItem = mainArray[parseInt(mainIndex + 1 - 1)].date.find(
+                (item) => {
+                  // console.log(
+                  //   item.id === dateId,
+                  //   "item.id === dateId",
+                  //   item.id,
+                  //   ".id:id>",
+                  //   dateId
+                  // );
+                  return item.id === dateId;
+                }
+              );
+              return dateItem ? dateItem.id : null;
+            })
+            .filter((dateName) => dateName !== null),
+        };
+      }
+    });
+    setSaveArray(updatedArray);
   };
 
   return (
@@ -162,17 +206,17 @@ const EventDate = () => {
           >
             Save
           </Button>
-          <Button
+          {/* <Button
             color="primary"
             variant="contained"
             sx={{ mx: 2 }}
-            type="submit"
             onClick={() => {
               localStorage.removeItem("Events");
+              
             }}
           >
             Clear Local
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
