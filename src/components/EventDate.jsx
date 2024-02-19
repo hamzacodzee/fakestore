@@ -1,48 +1,60 @@
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const EventDate = () => {
+  // eslint-disable-next-line
   const [checkAll, setCheckAll] = useState(false);
-  const [checkedDates, setCheckedDates] = useState([]);
   const [mainIndex, setMainIndex] = useState("");
+  const [mainArray, setMainArray] = useState([]);
   const [saveArray, setSaveArray] = useState([]);
 
-  const mainArray = [
-    {
-      id: 1,
-      name: "abc",
-      date: [
-        { id: 1, name: "Date1" },
-        { id: 2, name: "Date2" },
-        { id: 3, name: "Date3" },
-      ],
-    },
-    {
-      id: 2,
-      name: "xyz",
-      date: [
-        { id: 4, name: "Date4" },
-        { id: 5, name: "Date5" },
-        { id: 6, name: "Date6" },
-      ],
-    },
-    {
-      id: 3,
-      name: "pqr",
-      date: [
-        { id: 7, name: "Date7" },
-        { id: 8, name: "Date8" },
-        { id: 9, name: "Date9" },
-      ],
-    },
-  ];
+  const [checkedDates, setCheckedDates] = useState(
+    (
+      JSON.parse(localStorage.getItem("Events"))
+        ?.map((item) => item?.event_date)
+        ?.flat() || []
+    ).filter((date) => date !== undefined)
+  );
+
+  useEffect(() => {
+    setMainArray([
+      {
+        id: 1,
+        name: "abc",
+        date: [
+          { id: 1, name: "Date1" },
+          { id: 2, name: "Date2" },
+          { id: 3, name: "Date3" },
+        ],
+      },
+      {
+        id: 2,
+        name: "xyz",
+        date: [
+          { id: 4, name: "Date4" },
+          { id: 5, name: "Date5" },
+          { id: 6, name: "Date6" },
+        ],
+      },
+      {
+        id: 3,
+        name: "pqr",
+        date: [
+          { id: 7, name: "Date7" },
+          { id: 8, name: "Date8" },
+          { id: 9, name: "Date9" },
+        ],
+      },
+    ]);
+  }, []);
 
   const handleCheckAll = (e, arrayIndex) => {
     const isChecked = e.target.checked;
-    // console.log(isChecked + " isChecked");
 
     setCheckAll((prevCheckAll) => !prevCheckAll);
     const allDates = mainArray[arrayIndex].date.map((item) => item.id);
-    // console.log(allDates);
+
     setMainIndex(arrayIndex);
     setCheckedDates((prevCheckedDates) =>
       isChecked
@@ -72,6 +84,7 @@ const EventDate = () => {
 
         if (isMatchingIndex) {
           updatedArray[index] = {
+            event_name: item.name,
             event_id: item.id,
             event_date: checkedDates
               .map((dateId) => {
@@ -87,30 +100,32 @@ const EventDate = () => {
 
       return updatedArray;
     });
+    // eslint-disable-next-line
   }, [checkedDates]);
 
-  useEffect(() => {
-    console.log(saveArray);
-  }, [saveArray]);
+  const handleSave = () => {
+    localStorage.setItem("Events", JSON.stringify(saveArray));
+    toast.success("Saved Successfully");
+  };
 
   return (
     <div>
       <h1>Event</h1>
       <div style={{ textAlign: "left", margin: "1rem" }}>
         <form action="" method="get">
-          {mainArray.map((item, mainIndex) => (
+          {mainArray?.map((item, mainIndex) => (
             <div key={mainIndex}>
-              <h2>{item.name}</h2>
+              <h2>{item?.name}</h2>
               <div style={{ marginLeft: "1.5rem" }}>
-                {item.date.map((dateItem, index) => (
+                {item?.date?.map((dateItem, index) => (
                   <div key={index}>
                     <input
                       type="checkbox"
-                      name={dateItem.id}
-                      id={dateItem.id}
-                      value={dateItem.id}
+                      name={dateItem?.id}
+                      id={dateItem?.id}
+                      value={dateItem?.id}
                       onChange={(e) => handleDate(e, mainIndex)}
-                      checked={checkedDates.includes(dateItem.id)}
+                      checked={checkedDates?.includes(dateItem?.id)}
                     />
                     {dateItem.name}
                   </div>
@@ -130,6 +145,16 @@ const EventDate = () => {
             </div>
           ))}
         </form>
+        <div>
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   );
