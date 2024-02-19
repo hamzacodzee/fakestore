@@ -38,11 +38,9 @@ const EventDate = () => {
   ]);
 
   const [checkedDates, setCheckedDates] = useState(
-    (
-      JSON.parse(localStorage.getItem("Events"))
-        ?.map((item) => item?.event_date)
-        ?.flat() || []
-    ).filter((date) => date !== undefined)
+    JSON.parse(localStorage.getItem("Events"))
+      ?.map((item) => item?.event_date)
+      ?.flat() || []
   );
 
   const result = JSON.parse(localStorage.getItem("Events")) || [];
@@ -163,6 +161,17 @@ const EventDate = () => {
             onClick={handleSave}
           >
             Save
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{ mx: 2 }}
+            type="submit"
+            onClick={() => {
+              localStorage.removeItem("Events");
+            }}
+          >
+            Clear Local
           </Button>
         </div>
       </div>
