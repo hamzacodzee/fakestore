@@ -30,6 +30,7 @@ const MyAppBar = () => {
   const loggedLinks = [
     { path: "/home", text: "Home" },
     { path: "/edit", text: "Profile" },
+    { path: "/allproducts", text: "All Products" },
   ];
 
   const notLoggedLinks = [
