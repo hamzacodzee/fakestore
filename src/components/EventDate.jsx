@@ -6,8 +6,36 @@ const EventDate = () => {
   // eslint-disable-next-line
   const [checkAll, setCheckAll] = useState(false);
   const [mainIndex, setMainIndex] = useState("");
-  const [mainArray, setMainArray] = useState([]);
-  const [saveArray, setSaveArray] = useState([]);
+  // eslint-disable-next-line
+  const [mainArray, setMainArray] = useState([
+    {
+      id: 1,
+      name: "abc",
+      date: [
+        { id: 1, name: "Date1" },
+        { id: 2, name: "Date2" },
+        { id: 3, name: "Date3" },
+      ],
+    },
+    {
+      id: 2,
+      name: "xyz",
+      date: [
+        { id: 4, name: "Date4" },
+        { id: 5, name: "Date5" },
+        { id: 6, name: "Date6" },
+      ],
+    },
+    {
+      id: 3,
+      name: "pqr",
+      date: [
+        { id: 7, name: "Date7" },
+        { id: 8, name: "Date8" },
+        { id: 9, name: "Date9" },
+      ],
+    },
+  ]);
 
   const [checkedDates, setCheckedDates] = useState(
     (
@@ -17,37 +45,19 @@ const EventDate = () => {
     ).filter((date) => date !== undefined)
   );
 
-  useEffect(() => {
-    setMainArray([
-      {
-        id: 1,
-        name: "abc",
-        date: [
-          { id: 1, name: "Date1" },
-          { id: 2, name: "Date2" },
-          { id: 3, name: "Date3" },
-        ],
-      },
-      {
-        id: 2,
-        name: "xyz",
-        date: [
-          { id: 4, name: "Date4" },
-          { id: 5, name: "Date5" },
-          { id: 6, name: "Date6" },
-        ],
-      },
-      {
-        id: 3,
-        name: "pqr",
-        date: [
-          { id: 7, name: "Date7" },
-          { id: 8, name: "Date8" },
-          { id: 9, name: "Date9" },
-        ],
-      },
-    ]);
-  }, []);
+  const result = JSON.parse(localStorage.getItem("Events")) || [];
+
+  const [saveArray, setSaveArray] = useState(
+    mainArray.map((item, index) => ({
+      event_name: result[index]?.event_name || "",
+      event_id: result[index]?.event_id || "",
+      event_date: result[index]?.event_date.map((item) => item) || [],
+    }))
+  );
+
+  // useEffect(() => {
+  //   console.log(saveArray);
+  // }, [saveArray]);
 
   const handleCheckAll = (e, arrayIndex) => {
     const isChecked = e.target.checked;
