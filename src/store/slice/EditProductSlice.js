@@ -1,24 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 
-
-export const editData = createAsyncThunk('editProduct/editData', async (id) => {
-    try {
-        const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-            method: "PUT",
-            body: JSON.stringify(
-                {
-                    title: 'test product',
-                }
-            )
-        });
-        const jsonData = await response.json();
-        return jsonData;
-    } catch (error) {
-        console.error('Error Editing Data:', error);
-        throw error;
-    }
-})
 
 const initialState = {
     editable: false,
@@ -47,13 +29,7 @@ export const editProductSlice = createSlice({
             toast.success("Edited Successfully!")
         },
 
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(editData.fulfilled, (state, action) => {
-                console.log("Edited Successfully");
-            })
-    },
+    }
 })
 
 

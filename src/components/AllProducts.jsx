@@ -10,6 +10,7 @@ import {
   setEditableRow,
   setToEdit,
 } from "../store/slice/EditProductSlice";
+import { toast } from "react-toastify";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,17 @@ const AllProducts = () => {
                 <EditNoteIcon />
               </i>
               <i
+                onClick={() => {
+                  const existingData = JSON.parse(
+                    localStorage.getItem("allProducts")
+                  );
+                  existingData.splice(params.row.id, 1);
+                  localStorage.setItem(
+                    "allProducts",
+                    JSON.stringify(existingData)
+                  );
+                  toast.success("Deleted Successfully");
+                }}
                 style={{
                   display: editableRow === params.row.id ? "none" : "block",
                 }}

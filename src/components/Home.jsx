@@ -62,6 +62,11 @@ const Home = () => {
     getData();
   }, [dispatch]);
 
+  // useEffect(() => {
+  //   console.log("Component will unmount"); //Unmount
+  //   dispatch(setSearching(""));
+  // }, []);
+
   const handleChangePage = (event, newPage) => {
     dispatch(setLoad(true));
     dispatch(setPage(newPage));

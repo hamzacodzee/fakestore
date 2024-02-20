@@ -17,6 +17,7 @@ import FirebaseImageUpload from './components/FirebaseImageUpload/FirebaseImageU
 import EventManager from './components/EventManager/EventManager';
 import EventDate from './components/EventDate';
 import AllProducts from './components/AllProducts';
+import StudData from './components/Random/StudData';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/event" element={<Protected Component={EventManager} />} />
         <Route path="/eventdate" element={<Protected Component={EventDate} />} />
         <Route path="/allproducts" element={<Protected Component={AllProducts} />} />
+        <Route path="/studdata" element={<Protected Component={StudData} />} />
 
 
 
