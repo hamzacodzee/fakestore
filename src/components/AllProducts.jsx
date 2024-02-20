@@ -4,11 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.fakeStore);
+  localStorage.setItem("allProducts", JSON.stringify(data));
+  const allData = JSON.parse(localStorage.getItem("allProducts"));
   const [editable, setEditable] = useState(false);
+
   const getData = () => {
     dispatch(fetchData());
   };
@@ -18,9 +23,9 @@ const AllProducts = () => {
   }, []);
 
   const columns = [
-    { field: "title", headerName: "Title", editable: { editable }, width: 180 },
+    { field: "title", headerName: "Title", editable: editable, width: 180 },
     { field: "image", headerName: "Image", width: 180, renderCell: ImageCell },
-    { field: "price", headerName: "Price", editable: { editable }, width: 180 },
+    { field: "price", headerName: "Price", editable: editable, width: 180 },
     { field: "category", headerName: "Category", width: 180 },
     {
       field: "Action",
@@ -29,18 +34,39 @@ const AllProducts = () => {
       width: 100,
       renderCell: (params) => (
         <>
-          <i onClick={() => setEditable(true)}>
+          <i
+            onClick={() => {
+              setEditable(!editable);
+              alert(params.row.title);
+            }}
+            style={{ display: !editable ? "none" : "block" }}
+          >
+            <CheckCircleOutlineIcon />
+          </i>
+          <i
+            onClick={() => {
+              setEditable(!editable);
+            }}
+            style={{ display: !editable ? "none" : "block" }}
+          >
+            <HighlightOffIcon />
+          </i>
+          <i
+            onClick={() => {
+              setEditable(!editable);
+            }}
+            style={{ display: editable ? "none" : "block" }}
+          >
             <EditNoteIcon />
           </i>
-          <i>
+          <i style={{ display: editable ? "none" : "block" }}>
             <DeleteIcon />
           </i>
-          &nbsp;
         </>
       ),
     },
   ];
-  const rows = data?.map((product, id) => ({
+  const rows = allData?.map((product, id) => ({
     id: id,
     title: product.title,
     image: product.image,
