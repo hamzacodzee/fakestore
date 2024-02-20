@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify';
 
 
 export const editData = createAsyncThunk('editProduct/editData', async (id) => {
     try {
         const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-            method: "POST",
+            method: "PUT",
             body: JSON.stringify(
                 {
                     title: 'test product',
@@ -20,13 +21,31 @@ export const editData = createAsyncThunk('editProduct/editData', async (id) => {
 })
 
 const initialState = {
-
+    editable: false,
+    editableRow: "",
+    toEdit: "",
 }
 
 export const editProductSlice = createSlice({
     name: 'editProduct',
     initialState,
     reducers: {
+        setEditable: (state, action) => {
+            state.editable = action.payload
+        },
+        setEditableRow: (state, action) => {
+            state.editableRow = action.payload
+        },
+
+        setToEdit: (state, action) => {
+            state.toEdit = action.payload
+            const { id, title, price } = state.toEdit
+            const existingData = JSON.parse(localStorage.getItem("allProducts"));
+            existingData[id].title = title;
+            existingData[id].price = price;
+            localStorage.setItem("allProducts", JSON.stringify(existingData));
+            toast.success("Edited Successfully!")
+        },
 
     },
     extraReducers: (builder) => {
@@ -38,6 +57,6 @@ export const editProductSlice = createSlice({
 })
 
 
-// export const { } = editProductSlice.actions
+export const { setEditable, setEditableRow, setToEdit } = editProductSlice.actions
 
 export default editProductSlice.reducer

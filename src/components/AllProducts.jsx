@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { fetchData } from "../store/slice/FakeStoreSlice";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import {
+  setEditable,
+  setEditableRow,
+  setToEdit,
+} from "../store/slice/EditProductSlice";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.fakeStore);
-  localStorage.setItem("allProducts", JSON.stringify(data));
+  const { editable, editableRow } = useSelector((state) => state.editProduct);
   const allData = JSON.parse(localStorage.getItem("allProducts"));
-  const [editable, setEditable] = useState(false);
-
-  const getData = () => {
-    dispatch(fetchData());
-  };
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line
-  }, []);
 
   const columns = [
     { field: "title", headerName: "Title", editable: editable, width: 180 },
@@ -34,34 +28,50 @@ const AllProducts = () => {
       width: 100,
       renderCell: (params) => (
         <>
-          <i
-            onClick={() => {
-              setEditable(!editable);
-              alert(params.row.title);
-            }}
-            style={{ display: !editable ? "none" : "block" }}
-          >
-            <CheckCircleOutlineIcon />
-          </i>
-          <i
-            onClick={() => {
-              setEditable(!editable);
-            }}
-            style={{ display: !editable ? "none" : "block" }}
-          >
-            <HighlightOffIcon />
-          </i>
-          <i
-            onClick={() => {
-              setEditable(!editable);
-            }}
-            style={{ display: editable ? "none" : "block" }}
-          >
-            <EditNoteIcon />
-          </i>
-          <i style={{ display: editable ? "none" : "block" }}>
-            <DeleteIcon />
-          </i>
+          {editableRow === params.row.id ? (
+            <>
+              <i
+                onClick={() => {
+                  dispatch(setEditable(!editable));
+                  dispatch(setEditableRow(""));
+                  dispatch(setToEdit(params.row));
+                }}
+                style={{ display: !editable ? "none" : "block" }}
+              >
+                <CheckCircleOutlineIcon />
+              </i>
+              <i
+                onClick={() => {
+                  dispatch(setEditable(!editable));
+                  dispatch(setEditableRow(""));
+                }}
+                style={{ display: !editable ? "none" : "block" }}
+              >
+                <HighlightOffIcon />
+              </i>
+            </>
+          ) : (
+            <>
+              <i
+                onClick={() => {
+                  dispatch(setEditable(!editable));
+                  dispatch(setEditableRow(params.row.id));
+                }}
+                style={{
+                  display: editableRow === params.row.id ? "none" : "block",
+                }}
+              >
+                <EditNoteIcon />
+              </i>
+              <i
+                style={{
+                  display: editableRow === params.row.id ? "none" : "block",
+                }}
+              >
+                <DeleteIcon />
+              </i>
+            </>
+          )}
         </>
       ),
     },
