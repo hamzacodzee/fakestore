@@ -84,7 +84,9 @@ const StudData = () => {
   return (
     <div>
       <h1>StudData</h1>
-      {console.log(final)}
+      {
+        console.log(final)
+      }
     </div>
   );
 };
