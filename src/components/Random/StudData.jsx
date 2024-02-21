@@ -79,14 +79,26 @@ const StudData = () => {
   const sortMe = [...output].sort((a, b) => b?.per - a?.per);
 
   const display = sortMe.map((item, index) => ({ ...item, rank: index + 1 }));
-  const final = [...display].sort((a, b) => a?.roll_no - b?.roll_no);
+  let final = [...display].sort((a, b) => a?.roll_no - b?.roll_no);
+
+  const handleSelect = (event) => {
+    event.target.value === "asc"
+      ? (final = [...display].sort((a, b) => a?.roll_no - b?.roll_no))
+      : (final = [...display].sort((a, b) => b?.roll_no - a?.roll_no));
+    console.log(final);
+  };
 
   return (
     <div>
       <h1>StudData</h1>
-      {
-        console.log(final)
-      }
+      <select name="sort" id="sort" onChange={handleSelect}>
+        <option value="asc" defaultValue>
+          Ascending
+        </option>
+        <option value="desc">Descending</option>
+      </select>
+
+      {console.log(final)}
     </div>
   );
 };
