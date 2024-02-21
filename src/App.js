@@ -18,6 +18,7 @@ import EventManager from './components/EventManager/EventManager';
 import EventDate from './components/EventDate';
 import AllProducts from './components/AllProducts';
 import StudData from './components/Random/StudData';
+import CSCity from './components/Random/CSCity';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <Route path="/eventdate" element={<Protected Component={EventDate} />} />
         <Route path="/allproducts" element={<Protected Component={AllProducts} />} />
         <Route path="/studdata" element={<Protected Component={StudData} />} />
+        <Route path="/country" element={<Protected Component={CSCity} />} />
 
 
 
