@@ -150,67 +150,38 @@ const CSCity = () => {
                   </div>
                 </>
               )}
-              <div style={{ marginTop: "1rem",marginLeft: "2rem" }}>
+              <div style={{ marginTop: "1rem", marginLeft: "2rem" }}>
                 <li>States:</li>
 
-                <div style={{ marginLeft: "2rem",marginTop: "0.8rem" }}>
+                <div style={{ marginLeft: "2rem", marginTop: "0.8rem" }}>
                   {data?.map(
                     (item) =>
                       country === item?.country &&
                       item?.states?.map((stateMap, index) => (
                         <div key={index}>
                           <div>
-                            
-
-
-
-
+                            <div style={{display:"flex"}}>
                             <li
-                  onClick={(e) => {
-                    setEditCountry(stateMap);
-                    setEditedCountry(stateMap);
-                  }}
-                >
-                  {stateMap}
-                  {editCountry && country === editCountry ? (
-                    <input
-                      type="text"
-                      name="editCountry"
-                      id="editCountry"
-                      onChange={(e) => setEditedCountry(e.target.value)}
-                      value={editedCountry}
-                    />
-                  ) : (
-                    country
-                  )}
-                </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                              onClick={(e) => {
+                                setEditState(stateMap);
+                                setEditedState(stateMap);
+                              }}
+                            >
+                              {editState && stateMap === editState ? (
+                                <input
+                                  type="text"
+                                  name="editState"
+                                  id="editState"
+                                  onChange={(e) =>
+                                    setEditedState(e.target.value)
+                                  }
+                                  value={editedState}
+                                />
+                              ) : (
+                                stateMap
+                              )}
+                            </li>
+{/* Add Buttons and code to edit */}
                             <button
                               style={{
                                 display:
@@ -227,6 +198,7 @@ const CSCity = () => {
                             >
                               Add City
                             </button>
+                            </div>
 
                             {addInState === stateMap && (
                               <>
@@ -301,6 +273,7 @@ const CSCity = () => {
                                   >
                                     Save City
                                   </button>
+                                  
                                 </div>
                               </>
                             )}
