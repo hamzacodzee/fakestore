@@ -19,6 +19,65 @@ const CSCity = () => {
   console.log("data", data);
   // console.log("setAddInState", addInState);
 
+  // const locationData = [
+  //   {
+  //     countryId: 1,
+  //     countryName: 'India',
+  //     state: [
+  //       {
+  //         stateId: 101,
+  //         stateName: 'Gujarat',
+  //         city: [
+  //           {
+  //             cityId: 1001,
+  //             cityName: 'Surat',
+  //           },
+  //           {
+  //             cityId: 1002,
+  //             cityName: 'Junagadh',
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         stateId: 102,
+  //         stateName: 'Maharashtra',
+  //         city: [
+  //           {
+  //             cityId: 1003,
+  //             cityName: 'Mumbai',
+  //           },
+  //           {
+  //             cityId: 1004,
+  //             cityName: 'Pune',
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // ]
+  // const handleChangeCity = (countryId, stateId, cityId, cityName) => {
+  //   const output = locationData?.map(item => {
+  //     if (item?.countryId === countryId) {
+  //       return item?.state?.map(item2 => {
+  //         if (item2.stateId === stateId) {
+  //           return item2.city?.map(item3 => {
+  //             if (item3.cityId === cityId) {
+  //               return cityName
+  //             }
+  //             return item3
+  //           })
+  //         }
+  //         return item2
+  //       })
+  //     }
+  //     return item
+  //   })
+  //   return output
+  // }
+  // const output = handleChangeCity(1, 102, 1004, "Thane")
+
+  // console.log('output', output)
+
   return (
     <div
       style={{ textAlign: "left", fontFamily: "monospace", fontSize: "1rem" }}
@@ -382,7 +441,75 @@ const CSCity = () => {
                                                   city
                                                 )}
                                               </li>
-                                              
+                                              <button
+                                                style={{
+                                                  display:
+                                                    !editCity ||
+                                                    city !== editCity
+                                                      ? "none"
+                                                      : "",
+                                                  marginLeft: "2rem",
+                                                  marginRight: "0.5rem",
+                                                }}
+                                                onClick={(e) => {
+                                                  debugger;
+                                                  let updatedData = [...data];
+                                                  updatedData = updatedData.map(
+                                                    (item, index) => {
+                                                      const stateData =
+                                                        item?.StateCities?.map(
+                                                          (element) => {
+                                                            const cityData =
+                                                              element.cities.map(
+                                                                (itemCity) => {
+                                                                  if (
+                                                                    itemCity ===
+                                                                    editCity
+                                                                  ) {
+                                                                    return editedCity;
+                                                                  }
+                                                                  return itemCity;
+                                                                }
+                                                              );
+                                                            return {
+                                                              ...element,
+                                                              cities: cityData,
+                                                            };
+                                                          }
+                                                        );
+                                                      return {
+                                                        ...item,
+                                                        StateCities: stateData,
+                                                      };
+                                                    }
+                                                  );
+                                                  console.log(
+                                                    "updatedData",
+                                                    updatedData
+                                                  );
+
+                                                  setEditCity("");
+                                                  setData(updatedData);
+                                                  console.log("update");
+                                                }}
+                                              >
+                                                Update
+                                              </button>
+
+                                              <button
+                                                style={{
+                                                  display:
+                                                    !editCity ||
+                                                    city !== editCity
+                                                      ? "none"
+                                                      : "",
+                                                }}
+                                                onClick={(e) => {
+                                                  setEditCity("");
+                                                }}
+                                              >
+                                                Cancel
+                                              </button>
                                             </div>
                                           )
                                         )}
