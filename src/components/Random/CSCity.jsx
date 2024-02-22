@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CSCity = () => {
   const [country, setCountry] = useState("");
@@ -132,6 +133,7 @@ const CSCity = () => {
                         ? "none"
                         : "",
                     margin: "0 2rem",
+                    marginRight: "0.5rem",
                   }}
                   value={country}
                   onClick={(e) => {
@@ -176,6 +178,16 @@ const CSCity = () => {
                   }}
                 >
                   Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    const updatedData = data.filter(
+                      (item) => item.country !== country
+                    );
+                    setData(updatedData);
+                  }}
+                >
+                  <DeleteOutlineIcon />
                 </button>
               </div>
 
@@ -320,6 +332,28 @@ const CSCity = () => {
                               >
                                 Cancel
                               </button>
+
+                              <button
+                                onClick={() => {
+                                  const updatedData = data.map((item) => {
+                                    if (item.states[stateMap]) {
+                                      item.states.splice(stateMap, 1);
+
+                                      item.StateCities =
+                                        item.StateCities.filter(
+                                          (item2) =>
+                                            !item2.state.includes(stateMap)
+                                        );
+                                    }
+
+                                    return item;
+                                  });
+
+                                  setData(updatedData);
+                                }}
+                              >
+                                <DeleteOutlineIcon />
+                              </button>
                             </div>
 
                             {addInState === stateMap && (
@@ -452,7 +486,6 @@ const CSCity = () => {
                                                   marginRight: "0.5rem",
                                                 }}
                                                 onClick={(e) => {
-                                                  debugger;
                                                   let updatedData = [...data];
                                                   updatedData = updatedData.map(
                                                     (item, index) => {
