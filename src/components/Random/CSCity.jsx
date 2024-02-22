@@ -13,6 +13,8 @@ const CSCity = () => {
   const [editedCountry, setEditedCountry] = useState("");
   const [editState, setEditState] = useState("");
   const [editedState, setEditedState] = useState("");
+  const [editCity, setEditCity] = useState("");
+  const [editedCity, setEditedCity] = useState("");
 
   console.log("data", data);
   // console.log("setAddInState", addInState);
@@ -96,6 +98,7 @@ const CSCity = () => {
                     updatedData[index].country = editedCountry;
                     setEditCountry("");
                     setData(updatedData);
+                    setAdd(editedCountry);
                   }}
                 >
                   Update
@@ -160,44 +163,104 @@ const CSCity = () => {
                       item?.states?.map((stateMap, index) => (
                         <div key={index}>
                           <div>
-                            <div style={{display:"flex"}}>
-                            <li
-                              onClick={(e) => {
-                                setEditState(stateMap);
-                                setEditedState(stateMap);
-                              }}
+                            <div
+                              style={{ display: "flex", marginTop: "1.5rem" }}
                             >
-                              {editState && stateMap === editState ? (
-                                <input
-                                  type="text"
-                                  name="editState"
-                                  id="editState"
-                                  onChange={(e) =>
-                                    setEditedState(e.target.value)
-                                  }
-                                  value={editedState}
-                                />
-                              ) : (
-                                stateMap
-                              )}
-                            </li>
-{/* Add Buttons and code to edit */}
-                            <button
-                              style={{
-                                display:
-                                  addInState === stateMap && !toggleInState
-                                    ? "none"
-                                    : "",
-                                margin: "0 2rem",
-                              }}
-                              value={stateMap}
-                              onClick={(e) => {
-                                setAddInState(e.target.value);
-                                setToggleInState(false);
-                              }}
-                            >
-                              Add City
-                            </button>
+                              <li
+                                onClick={(e) => {
+                                  setEditState(stateMap);
+                                  setEditedState(stateMap);
+                                }}
+                              >
+                                {editState && stateMap === editState ? (
+                                  <input
+                                    type="text"
+                                    name="editState"
+                                    id="editState"
+                                    onChange={(e) =>
+                                      setEditedState(e.target.value)
+                                    }
+                                    value={editedState}
+                                  />
+                                ) : (
+                                  stateMap
+                                )}
+                              </li>
+
+                              <button
+                                style={{
+                                  display:
+                                    (addInState === stateMap &&
+                                      !toggleInState) ||
+                                    (editState && stateMap === editState)
+                                      ? "none"
+                                      : "",
+                                  margin: "0 2rem",
+                                }}
+                                value={stateMap}
+                                onClick={(e) => {
+                                  setAddInState(e.target.value);
+                                  setToggleInState(false);
+                                }}
+                              >
+                                Add City
+                              </button>
+
+                              <button
+                                style={{
+                                  display:
+                                    (addInState === stateMap &&
+                                      !toggleInState) ||
+                                    !editState ||
+                                    stateMap !== editState
+                                      ? "none"
+                                      : "",
+                                  marginLeft: "2rem",
+                                  marginRight: "0.5rem",
+                                }}
+                                onClick={(e) => {
+                                  const updatedData = [...data];
+                                  updatedData.forEach((item, index) => {
+                                    updatedData[index].states =
+                                      item?.states?.map((state) => {
+                                        console.log(
+                                          "state === editState",
+                                          state === editState
+                                        );
+                                        if (state === editState) {
+                                          console.log("if", editedState);
+                                          return editedState;
+                                        } else {
+                                          console.log("else", state);
+                                          return state;
+                                        }
+                                      });
+                                  });
+
+                                  setEditState("");
+                                  setData(updatedData);
+                                  setAddInState(editedState);
+                                }}
+                              >
+                                Update
+                              </button>
+
+                              <button
+                                style={{
+                                  display:
+                                    (addInState === stateMap &&
+                                      !toggleInState) ||
+                                    !editState ||
+                                    stateMap !== editState
+                                      ? "none"
+                                      : "",
+                                }}
+                                onClick={(e) => {
+                                  setEditState("");
+                                }}
+                              >
+                                Cancel
+                              </button>
                             </div>
 
                             {addInState === stateMap && (
@@ -217,7 +280,6 @@ const CSCity = () => {
                                   <button
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      //I want to add [state, city] multiple as user adds new city to addInState {}
 
                                       const addCity = data?.map((item) => {
                                         if (
@@ -273,14 +335,13 @@ const CSCity = () => {
                                   >
                                     Save City
                                   </button>
-                                  
                                 </div>
                               </>
                             )}
                           </div>
 
                           <div style={{ marginTop: "0.2rem" }}>
-                            Cities:
+                            City
                             <div style={{ marginLeft: "2rem" }}>
                               {data?.map((item) => {
                                 if (
@@ -296,7 +357,33 @@ const CSCity = () => {
                                       <div key={stateCities?.state}>
                                         {stateCities?.cities?.map(
                                           (city, index) => (
-                                            <div key={index}>{city}</div>
+                                            <div key={index}>
+                                              <li
+                                                onClick={(e) => {
+                                                  setEditCity(city);
+                                                  setEditedCity(city);
+                                                }}
+                                              >
+                                                {editCity &&
+                                                city === editCity ? (
+                                                  <input
+                                                    type="text"
+                                                    name="editCity"
+                                                    id="editCity"
+                                                    onChange={(e) => {
+                                                      console.log("first");
+                                                      setEditedCity(
+                                                        e.target.value
+                                                      );
+                                                    }}
+                                                    value={editedCity}
+                                                  />
+                                                ) : (
+                                                  city
+                                                )}
+                                              </li>
+                                              
+                                            </div>
                                           )
                                         )}
                                       </div>
