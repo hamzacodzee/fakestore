@@ -106,8 +106,14 @@ const StudData = () => {
   let input = [10, [20, 30, [40, [50, 60, 70, [80, [90, 100, [110, [120, [130]]]]]]]]] 
   console.log('input', input)
 
-  let myOutput = input.toString().split(",")
+
+
+
+  // output = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130] 
+  // let myOutput = input.toString().split(",")
+  let myOutput = input.flat(Infinity)
   console.log('myOutput', myOutput)
+
   
 
   return (
