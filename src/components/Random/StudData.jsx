@@ -103,18 +103,39 @@ const StudData = () => {
     );
   };
 
-  let input = [10, [20, 30, [40, [50, 60, 70, [80, [90, 100, [110, [120, [130]]]]]]]]] 
-  console.log('input', input)
-
-
-
-
-  // output = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130] 
+  //--------------------------------------------------------------------------------------------
+  // output = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130]
   // let myOutput = input.toString().split(",")
-  let myOutput = input.flat(Infinity)
-  console.log('myOutput', myOutput)
+  // let myOutput = input.flat(Infinity)
 
-  
+  let input = [
+    10,
+    [20, 30, [40, [50, 60, 70, [80, [90, 100, [110, [120, [130]]]]]]]],
+  ];
+
+  console.log("input", input);
+
+  let myOutput = [];
+
+  function removeSingleElements(arr) {
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (Array.isArray(arr[i])) {
+        arr[i] = removeSingleElements(arr[i]);
+
+        if (arr[i].length === 0) {
+          arr.splice(i, 1);
+        }
+      } else {
+        myOutput.push(...arr.splice(i, 1));
+      }
+    }
+
+    return arr;
+  }
+
+  // eslint-disable-next-line
+  let result = removeSingleElements(input);
+  console.log("myOutput", myOutput);
 
   return (
     <div>
