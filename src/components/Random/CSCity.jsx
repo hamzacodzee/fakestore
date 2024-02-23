@@ -18,7 +18,7 @@ const CSCity = () => {
   const [editedCity, setEditedCity] = useState("");
   const [strikeCountry, setStrikeCountry] = useState("");
   const [strikeState, setStrikeState] = useState("");
-  // const [strikeCity, setStrikeCity] = useState("");
+  const [strikeCity, setStrikeCity] = useState("");
 
   console.log("data", data);
   // console.log("setAddInState", addInState);
@@ -81,7 +81,7 @@ const CSCity = () => {
   // const output = handleChangeCity(1, 102, 1004, "Thane")
 
   // console.log('output', output)
-  console.log("strikeCountry", strikeCountry);
+  // console.log("strikeCountry", strikeCountry);
 
   return (
     <div
@@ -117,13 +117,11 @@ const CSCity = () => {
                       setEditCountry(country);
                       setEditedCountry(country);
                     }
-                    console.log("doubleClick");
                   }}
                   onClick={(e) => {
                     setStrikeCountry(strikeCountry ? "" : country);
                     strikeCountry && setStrikeState("");
-
-                    console.log("click");
+                    strikeCountry && setStrikeCity("");
                   }}
                 >
                   Country:{" "}
@@ -260,11 +258,9 @@ const CSCity = () => {
                                     setEditState(stateMap);
                                     setEditedState(stateMap);
                                   }
-                                  console.log("doubleClick");
                                 }}
                                 onClick={(e) => {
                                   setStrikeState(strikeState ? "" : stateMap);
-                                  console.log("click");
                                 }}
                               >
                                 {editState && stateMap === editState ? (
@@ -323,15 +319,9 @@ const CSCity = () => {
                                   updatedData.forEach((item, index) => {
                                     updatedData[index].states =
                                       item?.states?.map((state) => {
-                                        console.log(
-                                          "state === editState",
-                                          state === editState
-                                        );
                                         if (state === editState) {
-                                          console.log("if", editedState);
                                           return editedState;
                                         } else {
-                                          console.log("else", state);
                                           return state;
                                         }
                                       });
@@ -488,9 +478,22 @@ const CSCity = () => {
                                             <div key={index}>
                                               <div style={{ display: "flex" }}>
                                                 <li
+                                                  //Last Edited
+                                                  onDoubleClick={(e) => {
+                                                    setStrikeCity("");
+                                                    if (
+                                                      !strikeCity &&
+                                                      !strikeState &&
+                                                      !strikeCountry
+                                                    ) {
+                                                      setEditCity(city);
+                                                      setEditedCity(city);
+                                                    }
+                                                  }}
                                                   onClick={(e) => {
-                                                    setEditCity(city);
-                                                    setEditedCity(city);
+                                                    setStrikeCity(
+                                                      strikeCity ? "" : city
+                                                    );
                                                   }}
                                                 >
                                                   {editCity &&
@@ -500,16 +503,20 @@ const CSCity = () => {
                                                       name="editCity"
                                                       id="editCity"
                                                       onChange={(e) => {
-                                                        console.log("first");
                                                         setEditedCity(
                                                           e.target.value
                                                         );
                                                       }}
                                                       value={editedCity}
                                                     />
-                                                  ) : strikeCountry &&
-                                                    country ===
-                                                      strikeCountry ? (
+                                                  ) : (strikeCountry ||
+                                                      strikeState ||
+                                                      strikeCity) &&
+                                                    (country ===
+                                                      strikeCountry ||
+                                                      stateMap ===
+                                                        strikeState ||
+                                                      city === strikeCity) ? (
                                                     <strike>{city}</strike>
                                                   ) : (
                                                     city
@@ -561,14 +568,9 @@ const CSCity = () => {
                                                           };
                                                         }
                                                       );
-                                                    console.log(
-                                                      "updatedData",
-                                                      updatedData
-                                                    );
 
                                                     setEditCity("");
                                                     setData(updatedData);
-                                                    console.log("update");
                                                   }}
                                                 >
                                                   Update
