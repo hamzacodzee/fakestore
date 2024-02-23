@@ -17,6 +17,8 @@ const CSCity = () => {
   const [editCity, setEditCity] = useState("");
   const [editedCity, setEditedCity] = useState("");
   const [strikeCountry, setStrikeCountry] = useState("");
+  const [strikeState, setStrikeState] = useState("");
+  // const [strikeCity, setStrikeCity] = useState("");
 
   console.log("data", data);
   // console.log("setAddInState", addInState);
@@ -119,6 +121,8 @@ const CSCity = () => {
                   }}
                   onClick={(e) => {
                     setStrikeCountry(strikeCountry ? "" : country);
+                    strikeCountry && setStrikeState("");
+
                     console.log("click");
                   }}
                 >
@@ -250,17 +254,16 @@ const CSCity = () => {
                               style={{ display: "flex", marginTop: "1.5rem" }}
                             >
                               <li
-                                //Last Edited
                                 onDoubleClick={(e) => {
-                                  setStrikeCountry("");
-                                  if (!strikeCountry) {
+                                  setStrikeState("");
+                                  if (!strikeState && !strikeCountry) {
                                     setEditState(stateMap);
                                     setEditedState(stateMap);
                                   }
                                   console.log("doubleClick");
                                 }}
                                 onClick={(e) => {
-                                  setStrikeCountry(strikeCountry ? "" : country);
+                                  setStrikeState(strikeState ? "" : stateMap);
                                   console.log("click");
                                 }}
                               >
@@ -274,8 +277,9 @@ const CSCity = () => {
                                     }
                                     value={editedState}
                                   />
-                                ) : strikeCountry &&
-                                  country === strikeCountry ? (
+                                ) : (strikeCountry || strikeState) &&
+                                  (country === strikeCountry ||
+                                    stateMap === strikeState) ? (
                                   <strike>{stateMap}</strike>
                                 ) : (
                                   stateMap
@@ -315,6 +319,7 @@ const CSCity = () => {
                                 }}
                                 onClick={(e) => {
                                   const updatedData = [...data];
+
                                   updatedData.forEach((item, index) => {
                                     updatedData[index].states =
                                       item?.states?.map((state) => {
@@ -330,6 +335,14 @@ const CSCity = () => {
                                           return state;
                                         }
                                       });
+                                  });
+
+                                  updatedData.forEach((item) => {
+                                    item?.StateCities?.forEach((stateCity) => {
+                                      if (stateCity.state === editState) {
+                                        stateCity.state = editedState;
+                                      }
+                                    });
                                   });
 
                                   setEditState("");
