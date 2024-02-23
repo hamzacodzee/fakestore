@@ -550,21 +550,32 @@ const CSCity = () => {
 
                                                 <button
                                                   onClick={() => {
-                                                    
-                                                    const updatedData = data?.map((item) => {
-                                                      if (item?.StateCities) {
-                                                        item.StateCities = item.StateCities.map((stateCity) => {
-                                                          if (stateCity?.cities) {
-                                                            stateCity.cities = stateCity.cities.filter((cityInArray) => cityInArray !== city);
-                                                          }
-                                                          return stateCity;
-                                                        });
-                                                      }
-                                                    
-                                                      return item;
-                                                    });
-                                                    
-                                                    
+                                                    const updatedData =
+                                                      data?.map((item) => {
+                                                        if (item?.StateCities) {
+                                                          item.StateCities =
+                                                            item.StateCities.map(
+                                                              (stateCity) => {
+                                                                if (
+                                                                  stateCity?.cities
+                                                                ) {
+                                                                  stateCity.cities =
+                                                                    stateCity.cities.filter(
+                                                                      (
+                                                                        cityInArray
+                                                                      ) =>
+                                                                        cityInArray !==
+                                                                        city
+                                                                    );
+                                                                }
+                                                                return stateCity;
+                                                              }
+                                                            );
+                                                        }
+
+                                                        return item;
+                                                      });
+
                                                     setData(updatedData);
                                                   }}
                                                 >
