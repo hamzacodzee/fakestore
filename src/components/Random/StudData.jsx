@@ -137,6 +137,39 @@ const StudData = () => {
   let result = removeSingleElements(input);
   console.log("myOutput", myOutput);
 
+  //--------------------------------------------------------------------------------------------
+
+  //--------------------------------------------------------------------------------------------
+
+  //--------------------------------------------------------------------------------------------
+
+  // const myInput = [
+  //   10,
+  //   [20, 30, [40, [50, 60, 70, [80, [90, 100, [110, [120, [130]]]]]]]],
+  // ];
+  // const flatArray = [];
+  // const myRecursiveFunc = (arr) => {
+  //   for (let i = arr.length - 1; i >= 0; i--) {
+  //     if (Array.isArray(arr[i])) {
+  //       arr[i] = myRecursiveFunc(arr[i]);
+
+  //       if (arr[i].length === 0) {
+  //         arr.splice(i, 1);
+  //       }
+  //     } else {
+  //       flatArray.push(...arr.splice(i, 1));
+  //     }
+  //   }
+  //   return arr;
+  // };
+
+  // // eslint-disable-next-line
+  // const recursiveFuncResult = myRecursiveFunc(myInput);
+
+  // console.log("recursiveFuncResult", flatArray);
+
+  //--------------------------------------------------------------------------------------------
+
   return (
     <div>
       <h1>StudData</h1>
