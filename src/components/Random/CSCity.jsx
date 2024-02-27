@@ -3,9 +3,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CSCity = () => {
   const [country, setCountry] = useState("");
+  const [data, setData] = useState([]);
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  const [data, setData] = useState([]);
   const [add, setAdd] = useState("");
   const [addInState, setAddInState] = useState("");
   const [toggleState, setToggleState] = useState(false);
