@@ -138,7 +138,7 @@ const StudData = () => {
   //   return arr;
   // }
 
-  // // eslint-disable-next-line
+  // eslint-disable-next-line
   // let result = removeSingleElements(input);
   // // console.log("myOutput", myOutput);
 
@@ -168,7 +168,7 @@ const StudData = () => {
   //   return arr;
   // };
 
-  // // eslint-disable-next-line
+   // eslint-disable-next-line
   // const recursiveFuncResult = myRecursiveFunc(myInput);
 
   // console.log("recursiveFuncResult", flatArray);
