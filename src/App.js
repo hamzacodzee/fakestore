@@ -51,10 +51,6 @@ function App() {
           <Route path="/datesort" element={<Protected Component={DateSort} />} />
           <Route path="/axios" element={<Protected Component={AxiosPrac} />} />
           <Route path="/persist" element={<Protected Component={PersistRedux} />} />
-
-
-
-
         </Routes>
       </Suspense>
 

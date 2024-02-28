@@ -1,16 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
-const persistedValue = sessionStorage.getItem("persist:root");
-let initialNum = 0;
-
-if (persistedValue) {
-    const parsedValue = JSON.parse(persistedValue);
-    initialNum = parseInt(parsedValue.num, 10);
-}
-
 const initialState = {
-    num: initialNum,
+    num: 0,
 };
 
 export const persistPracSlice = createSlice({

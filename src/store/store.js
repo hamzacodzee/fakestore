@@ -1,41 +1,39 @@
-import { configureStore } from '@reduxjs/toolkit'
-import fakeStoreReducer from './slice/FakeStoreSlice'
-import viewProductReducer from './slice/ViewProductSlice'
-import addModalReducer from './slice/AddModalSlice'
-import categoryReducer from './slice/CategorySlice'
-import eventReducer from './slice/EventSlice'
-import editProductReducer from './slice/EditProductSlice'
-import persistPracReducer from './slice/PersistPracSlice'
-import { persistReducer, persistStore } from 'redux-persist';
-// eslint-disable-next-line 
-import { thunk } from 'redux-thunk';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
+import fakeStoreReducer from './slice/FakeStoreSlice';
+import viewProductReducer from './slice/ViewProductSlice';
+import addModalReducer from './slice/AddModalSlice';
+import categoryReducer from './slice/CategorySlice';
+import eventReducer from './slice/EventSlice';
+import editProductReducer from './slice/EditProductSlice';
+import persistPracReducer from './slice/PersistPracSlice';
 
 const persistConfig = {
     key: 'root',
     storage: storageSession,
-}
+    whitelist: ['persistPrac'],
+};
 
-const persistedReducer = persistReducer(persistConfig, persistPracReducer)
+const rootReducer = combineReducers({
+    fakeStore: fakeStoreReducer,
+    viewProduct: viewProductReducer,
+    addModal: addModalReducer,
+    category: categoryReducer,
+    event: eventReducer,
+    editProduct: editProductReducer,
+    persistPrac: persistPracReducer,
+});
 
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: {
-        fakeStore: fakeStoreReducer,
-        viewProduct: viewProductReducer,
-        addModal: addModalReducer,
-        category: categoryReducer,
-        event: eventReducer,
-        editProduct: editProductReducer,
-        persistPrac: persistedReducer
-    },
-
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
         }),
-})
+});
 
-const persist_store = persistStore(store)
-
-export {persist_store};
+export const persist_store = persistStore(store);

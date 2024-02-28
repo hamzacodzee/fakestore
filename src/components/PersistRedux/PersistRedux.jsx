@@ -16,9 +16,9 @@ const PersistRedux = () => {
 
   return (
     <div>
-      <button onClick={handleIncrement}>+</button>
-      <input type="text" name="number" id="number" value={num} readOnly />
       <button onClick={handleDecrement}>-</button>
+      <input type="text" name="number" id="number" value={num} readOnly />
+      <button onClick={handleIncrement}>+</button>
     </div>
   );
 };
