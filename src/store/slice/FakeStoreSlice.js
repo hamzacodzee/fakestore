@@ -38,7 +38,10 @@ const initialState = {
     filterID: "",
     filterTitle: "",
     filtering: "",
-    filter: []
+    filter: [],
+    phoneError: false,
+    disableMe:true,
+    formattedPhone:""
 }
 
 export const fakeStoreSlice = createSlice({
@@ -85,6 +88,18 @@ export const fakeStoreSlice = createSlice({
             state.filter = action.payload
         },
 
+        setPhoneError: (state, action) => {
+            state.phoneError = action.payload
+        },
+
+        setDisableMe: (state, action) => {
+            state.disableMe = action.payload
+        },
+
+        setFormattedPhone: (state, action) => {
+            state.formattedPhone = action.payload
+        },
+
 
 
 
@@ -98,6 +113,6 @@ export const fakeStoreSlice = createSlice({
 })
 
 
-export const { setFilter, setFiltering, setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
+export const { setFormattedPhone,setFilter,setDisableMe, setPhoneError, setFiltering, setCopyList, setSearching, setCategory, setItemsPerPage, setPage, setLoad, setCategoryList, setCategoryData } = fakeStoreSlice.actions
 
 export default fakeStoreSlice.reducer

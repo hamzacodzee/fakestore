@@ -4,9 +4,23 @@ import * as yup from "yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { Country, State, City } from "country-state-city";
 import { toast } from "react-toastify";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  // setPhoneError,
+  // setDisableMe,
+  setFormattedPhone,
+} from "../store/slice/FakeStoreSlice";
 
 const validationSchema = yup.object({
   email: yup
@@ -42,6 +56,9 @@ const validationSchema = yup.object({
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { formattedPhone } = useSelector((state) => state.fakeStore);
 
   useEffect(() => {
     let login = localStorage.getItem("LoginDetails");
@@ -61,6 +78,7 @@ const Signup = () => {
       city: "",
       state: "",
       country: "",
+      mobile: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -78,8 +96,39 @@ const Signup = () => {
       }
     },
   });
-  const { touched, errors, handleBlur, handleSubmit, handleChange, values } =
-    formik;
+  const {
+    touched,
+    errors,
+    handleBlur,
+    handleSubmit,
+    handleChange,
+    setFieldValue,
+    values,
+  } = formik;
+
+  // console.log("values", values?.mobile?.length);
+  // console.log(
+  //   "formattedPhone",
+  //   formattedPhone?.format?.replace(/[()\s-+]/g, "").length
+  // );
+
+  // console.log(
+  //   "formattedPhoneData",
+  //   formattedPhone?.format?.replace(/[()\s-+]/g, "")
+  // );
+
+  // console.log("valuesData", values?.mobile);
+
+  // const isValid = (formattedValue, country, value) => {
+  //   dispatch(
+  //     setPhoneError(
+  //       formattedValue.format.length === value.length ? false : true
+  //     )
+  //   );
+  //   dispatch(
+  //     setDisableMe(formattedValue.format.length === value.length ? null : true)
+  //   );
+  // };
 
   return (
     <div style={{ margin: "10%", marginTop: "0%" }}>
@@ -254,12 +303,60 @@ const Signup = () => {
         <br />
         <br />
 
-        <Button color="primary" variant="contained" fullWidth type="submit">
+        <FormControl fullWidth required sx={{ textAlign: "left" }}>
+          <PhoneInput
+            country={Country?.getCountryByCode(
+              values?.country
+            )?.isoCode?.toLowerCase()}
+            value={values.mobile}
+            onChange={(e, formattedValue, country, value) => {
+              setFieldValue("mobile", e);
+              // isValid(formattedValue, country, value);
+              dispatch(setFormattedPhone(formattedValue));
+            }}
+            onBlur={handleBlur}
+            name="mobile"
+            placeholder="Mobile"
+            countryCodeEditable={false}
+            disableDropdown={true}
+            inputProps={{
+              name: "mobile",
+              required: true,
+            }}
+          />
+
+          <FormHelperText sx={{ color: "red" }}>
+            {formattedPhone &&
+              formattedPhone?.format?.replace(/[()\s-+]/g, "").length !==
+                values?.mobile?.length &&
+              "Incorrect Phone"}
+          </FormHelperText>
+        </FormControl>
+
+        <br />
+        <br />
+
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+          disabled={
+            formattedPhone?.format?.replace(/[()\s-+]/g, "").length !==
+            values?.mobile?.length
+              ? true
+              : null
+          }
+        >
           Submit
         </Button>
       </form>
-      <p>Have an Account? <Link style={{color:"blue"}} to="/">Login</Link></p>
-
+      <p>
+        Have an Account?{" "}
+        <Link style={{ color: "blue" }} to="/">
+          Login
+        </Link>
+      </p>
     </div>
   );
 };
