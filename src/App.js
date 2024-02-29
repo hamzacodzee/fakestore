@@ -24,6 +24,7 @@ const StudData = lazy(() => import('./components/Random/StudData'));
 const CSCity = lazy(() => import('./components/Random/CSCity'));
 const CSCityProper = lazy(() => import('./components/Random/CSCityProper'));
 const DateSort = lazy(() => import('./components/Random/DateSort'));
+const MultipleFilter = lazy(() => import('./components/MultipleFilter/MultipleFilter'));
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/datesort" element={<Protected Component={DateSort} />} />
           <Route path="/axios" element={<Protected Component={AxiosPrac} />} />
           <Route path="/persist" element={<Protected Component={PersistRedux} />} />
+          <Route path="/multifilter" element={<Protected Component={MultipleFilter} />} />
         </Routes>
       </Suspense>
 

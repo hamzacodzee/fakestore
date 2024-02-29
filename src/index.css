@@ -31,3 +31,12 @@ code {
 .css-1slnj5u-MuiPaper-root {
   background-color: #f5f1f0 !important;
 }
+
+.table-responsive{
+  overflow: auto;
+
+}
+
+.table-responsive td{
+  max-width: 150px;
+}

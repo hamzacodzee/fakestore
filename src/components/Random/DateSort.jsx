@@ -17,7 +17,7 @@ const DateSort = () => {
       quantity: 24,
       inventoryStatus: "INSTOCK",
       rating: 5,
-      date: "2024-02-09"
+      date: "2024-02-09",
     },
     {
       id: "1001",
@@ -30,7 +30,7 @@ const DateSort = () => {
       quantity: 15,
       inventoryStatus: "INSTOCK",
       rating: 4,
-      date: "2024-01-12"
+      date: "2024-01-12",
     },
     {
       id: "1002",
@@ -43,7 +43,7 @@ const DateSort = () => {
       quantity: 50,
       inventoryStatus: "INSTOCK",
       rating: 4.5,
-      date: "2024-02-15"
+      date: "2024-02-15",
     },
     {
       id: "1003",
@@ -56,7 +56,7 @@ const DateSort = () => {
       quantity: 10,
       inventoryStatus: "INSTOCK",
       rating: 4,
-      date: "2024-12-17"
+      date: "2024-12-17",
     },
     {
       id: "1004",
@@ -69,7 +69,7 @@ const DateSort = () => {
       quantity: 10,
       inventoryStatus: "INSTOCK",
       rating: 4,
-      date: "2023-12-16"
+      date: "2023-12-16",
     },
     {
       id: "1005",
@@ -82,7 +82,7 @@ const DateSort = () => {
       quantity: 30,
       inventoryStatus: "INSTOCK",
       rating: 4.8,
-      date: "2024-11-17"
+      date: "2024-11-17",
     },
     {
       id: "1006",
@@ -95,7 +95,7 @@ const DateSort = () => {
       quantity: 10,
       inventoryStatus: "INSTOCK",
       rating: 4,
-      date: "2023-12-18"
+      date: "2023-12-18",
       //date: "18-12-2023",
     },
   ]);
