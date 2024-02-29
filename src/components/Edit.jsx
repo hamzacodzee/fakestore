@@ -4,11 +4,24 @@ import * as yup from "yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { Country, State, City } from "country-state-city";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFormattedPhone,
+  setCountryChanged,
+} from "../store/slice/FakeStoreSlice";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const validationSchema = yup.object({
   email: yup
@@ -44,12 +57,18 @@ const validationSchema = yup.object({
 
 const Edit = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { formattedPhone, countryChanged } = useSelector(
+    (state) => state.fakeStore
+  );
+
   useEffect(() => {
     let login = localStorage.getItem("LoginDetails");
     if (!login) {
       navigate("/");
     }
   });
+  console.log("formattedPhone", formattedPhone);
 
   const LoginDetailsString = localStorage?.getItem("LoginDetails");
   const {
@@ -62,6 +81,7 @@ const Edit = () => {
     city,
     state,
     country,
+    mobile,
   } = JSON?.parse(LoginDetailsString);
 
   const formik = useFormik({
@@ -75,6 +95,7 @@ const Edit = () => {
       city,
       state,
       country,
+      mobile,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -96,6 +117,7 @@ const Edit = () => {
         city,
         state,
         country,
+        mobile,
       } = values;
 
       allUsers[user] = {
@@ -108,6 +130,7 @@ const Edit = () => {
         city,
         state,
         country,
+        mobile,
       };
       const newData = {
         fName,
@@ -119,6 +142,7 @@ const Edit = () => {
         city,
         state,
         country,
+        mobile,
       };
 
       if (_.isEqual(oldData, newData)) {
@@ -127,11 +151,19 @@ const Edit = () => {
         localStorage.setItem("users", JSON.stringify(allUsers));
         localStorage.setItem("LoginDetails", JSON.stringify(allUsers[user]));
         toast.success("Updated Successfully");
+        navigate("/home");
       }
     },
   });
-  const { touched, errors, handleBlur, handleSubmit, handleChange, values } =
-    formik;
+  const {
+    touched,
+    errors,
+    setFieldValue,
+    handleBlur,
+    handleSubmit,
+    handleChange,
+    values,
+  } = formik;
 
   return (
     <div style={{ margin: "10%", marginTop: "0%" }}>
@@ -207,7 +239,12 @@ const Edit = () => {
             id="demo-simple-select"
             label="Country"
             value={values.country}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              dispatch(setCountryChanged(true));
+              setFieldValue("state", "");
+              setFieldValue("city", "");
+            }}
             error={touched?.country && Boolean(errors?.country)}
             helpertext={touched?.country && errors?.country}
             name="country"
@@ -230,7 +267,10 @@ const Edit = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={values.state}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              setFieldValue("city", "");
+            }}
             error={touched?.state && Boolean(errors?.state)}
             helpertext={touched?.state && errors?.state}
             name="state"
@@ -306,7 +346,52 @@ const Edit = () => {
         <br />
         <br />
 
-        <Button color="primary" variant="contained" fullWidth type="submit">
+        <FormControl fullWidth required sx={{ textAlign: "left" }}>
+          <PhoneInput
+            country={Country?.getCountryByCode(
+              values?.country
+            )?.isoCode?.toLowerCase()}
+            value={values.mobile}
+            onChange={(e, formattedValue, country, value) => {
+              setFieldValue("mobile", e);
+              // isValid(formattedValue, country, value);
+              dispatch(setFormattedPhone(formattedValue));
+            }}
+            onBlur={handleBlur}
+            name="mobile"
+            placeholder="Mobile"
+            countryCodeEditable={false}
+            disableDropdown={true}
+            inputProps={{
+              name: "mobile",
+              required: true,
+            }}
+          />
+
+          <FormHelperText sx={{ color: "red" }}>
+            {formattedPhone &&
+              formattedPhone?.format?.replace(/[()\s-+]/g, "").length !==
+                values?.mobile?.length &&
+              "Incorrect Phone"}
+          </FormHelperText>
+        </FormControl>
+
+        <br />
+        <br />
+
+        <Button
+          color="primary"
+          disabled={
+            countryChanged &&
+            formattedPhone?.format?.replace(/[()\s-+]/g, "").length !==
+              values?.mobile?.length
+              ? true
+              : null
+          }
+          variant="contained"
+          fullWidth
+          type="submit"
+        >
           Submit
         </Button>
       </form>

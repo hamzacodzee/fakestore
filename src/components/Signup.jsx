@@ -204,7 +204,11 @@ const Signup = () => {
             id="demo-simple-select"
             label="Country"
             value={values.country}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              setFieldValue("state", "");
+              setFieldValue("city", "");
+            }}
             error={touched?.country && Boolean(errors?.country)}
             helpertext={touched?.country && errors?.country}
             name="country"
@@ -227,7 +231,10 @@ const Signup = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={values.state}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              setFieldValue("city", "");
+            }}
             error={touched?.state && Boolean(errors?.state)}
             helpertext={touched?.state && errors?.state}
             name="state"
