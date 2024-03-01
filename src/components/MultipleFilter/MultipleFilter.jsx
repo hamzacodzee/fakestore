@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 const MultipleFilter = () => {
-  const [searching, setSearching] = useState("");
   const [filterRows, setFilterRows] = useState([]);
 
   const productData = [
@@ -101,6 +100,12 @@ const MultipleFilter = () => {
   ];
 
   const fieldNames = Object.keys(productData[0]);
+  const [rows, setRows] = useState(productData);
+
+  const [searching, setSearching] = useState(
+    Object.fromEntries(fieldNames.map((key) => [key, ""]))
+  );
+  // console.log("searching", searching);
 
   const fieldArray = fieldNames.map((element) => ({
     field: element,
@@ -108,42 +113,76 @@ const MultipleFilter = () => {
     width: "150",
   }));
 
-  //   console.log("feildArray", fieldArray);
-
-  const rows = productData?.map((product) => {
-    const rowData = {};
-    fieldNames.forEach((fieldName) => {
-      rowData[fieldName] = product[fieldName];
-    });
-    return {
-      ...rowData,
-      id: product.id,
-    };
-  });
+  useEffect(() => {
+    const data = filterRows.length > 0  ? filterRows : productData 
+    setRows(
+      data?.map((product) => {
+        const rowData = {};
+        fieldNames.forEach((fieldName) => {
+          rowData[fieldName] = product[fieldName];
+        });
+        return {
+          ...rowData,
+          id: product.id,
+        };
+      })
+    );
+    // eslint-disable-next-line
+  }, [filterRows]);
 
   const handleSearch = (e) => {
     console.log(e.target.value);
-    setSearching(e.target.value);
+    setSearching({ ...searching, [e.target.name]: e.target.value });
 
-    console.log(filterRows, "anFilter");
-    setFilterRows(
-      filterRows.length > 0
-        ? filterRows.filter((product) =>
-            product[e.target.name]
-              ?.toString()
-              .toLowerCase()
-              ?.includes(e.target.value?.toLowerCase())
-          )
-        : productData.filter((product) =>
-            product[e.target.name]
-              ?.toString()
-              .toLowerCase()
-              ?.includes(e.target.value?.toLowerCase())
-          )
+    const searchFor = { ...searching, [e.target.name]: e.target.value };
+    console.log("searchFor", searchFor);
+
+    const oldLength = Object.entries(searching).reduce((acc, [key, value]) => {
+      // console.log("value.length", value.length, "value", value);
+      acc[key] = value.length;
+      return acc;
+    }, {});
+
+    const newLength = Object.entries(searchFor).reduce((acc, [key, value]) => {
+      // console.log("value.length", value.length, "value", value);
+      acc[key] = value.length;
+      return acc;
+    }, {});
+
+    const isOldLengthGreaterThanNewLength = Object.keys(oldLength).some(
+      (key) => oldLength[key] > newLength[key]
     );
-  };
 
-  console.log("filterRows", filterRows);
+    //instead of saving 1 search textbox value, save all textbox values
+    //map all saved searchFor values in data
+    //when all search textbox values is null then assign productData
+    //Take FilterRow When multiple Search Filter
+    // take data on length decrement as well as null values of textbox
+
+    const flgAllValuesNull = Object.entries(searching).every(
+      ([key, value]) => value === ""
+    );
+
+    // console.log(
+    //   "searchIn",
+    //   flgAllValuesNull || isOldLengthGreaterThanNewLength
+    // );
+    const searchIn =
+      flgAllValuesNull || isOldLengthGreaterThanNewLength
+        ? productData
+        : filterRows;
+    const filteredRows = searchIn.filter((product) => {
+      return Object.entries(searchFor).every(([key, value]) => {
+        return (
+          !value ||
+          product[key]?.toString().toLowerCase().includes(value?.toLowerCase())
+        );
+      });
+    });
+    console.log("filterRows", filteredRows);
+
+    setFilterRows(filteredRows);
+  };
 
   return (
     <div>
