@@ -114,7 +114,7 @@ const MultipleFilter = () => {
   }));
 
   useEffect(() => {
-    const data = filterRows.length > 0  ? filterRows : productData 
+    const data = filterRows.length > 0 ? filterRows : productData;
     setRows(
       data?.map((product) => {
         const rowData = {};

@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 import Protected from './components/Protected';
+import RowExpand from './components/Random/RowExpand';
 const AxiosPrac = lazy(() => import('./components/Random/AxiosPrac'));
 const PersistRedux = lazy(() => import('./components/PersistRedux/PersistRedux'));
 const Home = lazy(() => import('./components/Home'));
@@ -53,6 +54,7 @@ function App() {
           <Route path="/axios" element={<Protected Component={AxiosPrac} />} />
           <Route path="/persist" element={<Protected Component={PersistRedux} />} />
           <Route path="/multifilter" element={<Protected Component={MultipleFilter} />} />
+          <Route path="/rowexpand" element={<Protected Component={RowExpand} />} />
         </Routes>
       </Suspense>
 
