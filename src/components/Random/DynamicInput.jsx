@@ -7,6 +7,14 @@ const tasks = [
     { id: "3", content: "Third task" },
     { id: "4", content: "Fourth task" },
     { id: "5", content: "Fifth task" },
+    { id: "6", content: "6 task" },
+    { id: "7", content: "7 task" },
+    { id: "8", content: "8 task" },
+    { id: "9", content: "9 task" },
+    { id: "10", content: "10 task" },
+    { id: "11", content: "11 task" },
+    { id: "12", content: "12 task" },
+    { id: "13", content: "13 task" },
 ];
 
 const taskStatus = {
@@ -65,6 +73,23 @@ const onDragEnd = (result, columns, setColumns) => {
     }
 };
 
+const handleScroll = (e) => {
+    console.log("sdfdsf");
+    // Check if the user is dragging and if they are near the top or bottom of the container
+    if (e.clientY < 100) {
+      // Scroll up
+      e.currentTarget.scrollTop -= 20;
+    } else if (e.clientY > window.innerHeight - 100) {
+      // Scroll down
+      e.currentTarget.scrollTop += 20;
+    }
+  };
+
+//   var root = document.documentElement;
+// const lists = document.querySelectorAll('.item_main'); 
+
+
+
 function DynamicInput() {
     const [columns, setColumns] = useState(taskStatus);
     return (
@@ -74,10 +99,11 @@ function DynamicInput() {
             <div
                 style={{
                     display: "flex",
-                    justifyContent: "center",
-                    height: "100%",
+                    height: "500px",
                     overflowX: "auto", 
+                    
                 }}
+                className="item_main"
             >
                 <DragDropContext
                     onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
@@ -91,9 +117,10 @@ function DynamicInput() {
                                     alignItems: "center",
                                 }}
                                 key={columnId}
+                                className="items_wrap"
                             >
                                 <h2>{column.name}</h2>
-                                <div style={{ margin: 8, minWidth: 250 }}>
+                                <div style={{ margin: 8, minWidth: 250, }}>
                                     <Droppable droppableId={columnId} key={columnId}>
                                         {(provided, snapshot) => {
                                             return (
@@ -106,7 +133,9 @@ function DynamicInput() {
                                                             : "lightgrey",
                                                         padding: 4,
                                                         minHeight: 500,
+                                                        // overflow: "auto"
                                                     }}
+                                                    onDragOver={handleScroll}
                                                 >
                                                     {column.items.map((item, index) => {
                                                         return (

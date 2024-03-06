@@ -4,6 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 import Protected from './components/Protected';
+
+const Base64ImageConverter = lazy(() => import('./components/Random/Base64ImageConverter'));
 const RowExpand = lazy(() => import('./components/Random/RowExpand'));
 const DynamicInput = lazy(() => import('./components/Random/DynamicInput'));
 const AxiosPrac = lazy(() => import('./components/Random/AxiosPrac'));
@@ -34,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <Suspense fallback={<div>Loading...</div>}>
-        
+
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -57,7 +59,8 @@ function App() {
           <Route path="/persist" element={<Protected Component={PersistRedux} />} />
           <Route path="/multifilter" element={<Protected Component={MultipleFilter} />} />
           <Route path="/rowexpand" element={<Protected Component={RowExpand} />} />
-          <Route path="/dynamicinput" element={<Protected Component={DynamicInput} />} />
+          <Route path="/dynamicinput" element={<DynamicInput />} />
+          <Route path="/base64" element={<Base64ImageConverter />} />
         </Routes>
       </Suspense>
 
