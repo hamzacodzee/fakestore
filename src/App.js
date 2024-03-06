@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 import Protected from './components/Protected';
-import RowExpand from './components/Random/RowExpand';
+const RowExpand = lazy(() => import('./components/Random/RowExpand'));
+const DynamicInput = lazy(() => import('./components/Random/DynamicInput'));
 const AxiosPrac = lazy(() => import('./components/Random/AxiosPrac'));
 const PersistRedux = lazy(() => import('./components/PersistRedux/PersistRedux'));
 const Home = lazy(() => import('./components/Home'));
@@ -28,11 +29,12 @@ const DateSort = lazy(() => import('./components/Random/DateSort'));
 const MultipleFilter = lazy(() => import('./components/MultipleFilter/MultipleFilter'));
 
 
+
 function App() {
   return (
     <div className="App">
       <Suspense fallback={<div>Loading...</div>}>
-        <MyAppBar />
+        
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -55,6 +57,7 @@ function App() {
           <Route path="/persist" element={<Protected Component={PersistRedux} />} />
           <Route path="/multifilter" element={<Protected Component={MultipleFilter} />} />
           <Route path="/rowexpand" element={<Protected Component={RowExpand} />} />
+          <Route path="/dynamicinput" element={<Protected Component={DynamicInput} />} />
         </Routes>
       </Suspense>
 

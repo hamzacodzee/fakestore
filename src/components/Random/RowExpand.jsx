@@ -472,9 +472,9 @@ export default function RowExpand() {
     }
   };
 
-  const allowExpansion = (rowData) => {
-    return rowData.orders.length > 0;
-  };
+  // const allowExpansion = (rowData) => {
+  //   return rowData.orders.length > 0;
+  // };
 
   const rowExpansionTemplate = (data) => {
     return (
