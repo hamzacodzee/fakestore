@@ -535,8 +535,7 @@ export default function RowExpand() {
         }}
         expandedRows={expandedRows}
         onRowToggle={(e) => setExpandedRows(e.data)}
-        onRowExpand={onRowExpand}
-        onRowCollapse={onRowCollapse}
+       
         rowExpansionTemplate={rowExpansionTemplate}
         dataKey="id"
         header={header}

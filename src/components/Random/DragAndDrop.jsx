@@ -90,7 +90,7 @@ const handleScroll = (e) => {
 
 
 
-function DynamicInput() {
+function  DragAndDrop() {
     const [columns, setColumns] = useState(taskStatus);
     return (
 
@@ -184,4 +184,4 @@ function DynamicInput() {
     );
 }
 
-export default DynamicInput;
+export default DragAndDrop;

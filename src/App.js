@@ -5,9 +5,10 @@ import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 import Protected from './components/Protected';
 
+
 const Base64ImageConverter = lazy(() => import('./components/Random/Base64ImageConverter'));
 const RowExpand = lazy(() => import('./components/Random/RowExpand'));
-const DynamicInput = lazy(() => import('./components/Random/DynamicInput'));
+const DragAndDrop = lazy(() => import('./components/Random/DragAndDrop'));
 const AxiosPrac = lazy(() => import('./components/Random/AxiosPrac'));
 const PersistRedux = lazy(() => import('./components/PersistRedux/PersistRedux'));
 const Home = lazy(() => import('./components/Home'));
@@ -29,6 +30,10 @@ const CSCity = lazy(() => import('./components/Random/CSCity'));
 const CSCityProper = lazy(() => import('./components/Random/CSCityProper'));
 const DateSort = lazy(() => import('./components/Random/DateSort'));
 const MultipleFilter = lazy(() => import('./components/MultipleFilter/MultipleFilter'));
+const Whatsapp = lazy(() => import('./components/Random/Whatsapp'));
+const WebCam = lazy(() => import('./components/Random/WebCam'));
+const RowGenerator = lazy(() => import('./components/Random/RowGenerator'));
+
 
 
 
@@ -59,8 +64,11 @@ function App() {
           <Route path="/persist" element={<Protected Component={PersistRedux} />} />
           <Route path="/multifilter" element={<Protected Component={MultipleFilter} />} />
           <Route path="/rowexpand" element={<Protected Component={RowExpand} />} />
-          <Route path="/dynamicinput" element={<DynamicInput />} />
+          <Route path="/DragAndDrop" element={<DragAndDrop />} />
           <Route path="/base64" element={<Base64ImageConverter />} />
+          <Route path="/whatsapp" element={<Whatsapp />} />
+          <Route path="/webcam" element={<WebCam />} />
+          <Route path="/rowgenerator" element={<RowGenerator />} />
         </Routes>
       </Suspense>
 
